@@ -19,9 +19,13 @@ class CreateTripsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->date('fecha');
             $table->dateTime('hora');
-            $table->string('ciudad');
-            $table->string('latitud');
-            $table->string('longitud');
+            $table->integer('tiempo_estimado');
+            $table->string('ciudad')->nullable();
+            $table->string('barrio')->nullable();
+            $table->string('calle')->nullable();
+            $table->integer('numero')->nullable();
+            $table->string('latitud')->nullable();
+            $table->string('longitud')->nullable();
             $table->timestamps();
         });
     }
