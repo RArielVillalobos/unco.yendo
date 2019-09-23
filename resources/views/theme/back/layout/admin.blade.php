@@ -8,6 +8,7 @@
 ================================================================================ -->
 <head>
     <title>@yield('title')</title>
+
     @include('theme.back.layout.includes.head')
 </head>
 <body>
@@ -16,7 +17,9 @@
         <!-- End Page Loading -->
             <!-- //////////////////////////////////////////////////////////////////////////// -->
             <!-- START HEADER -->
-        @include('theme.back.layout.includes.header')
+            {{--@include('theme.back.layout.includes.header') --}}
+            <cabeza></cabeza>
+
         <!-- END HEADER -->
             <!-- //////////////////////////////////////////////////////////////////////////// -->
             <!-- START MAIN -->
@@ -25,7 +28,9 @@
                 <div class="wrapper">
                     <!-- START LEFT SIDEBAR NAV-->
                 @if(auth()->check())
-                    @include('theme.back.layout.includes.left-sidebar')
+                    {{--@include('theme.back.layout.includes.left-sidebar') --}}
+                   <left-sidebar></left-sidebar>
+
 
                 @endif
                 <!-- END LEFT SIDEBAR NAV-->
@@ -35,59 +40,8 @@
                         <!--start container-->
                         <div class="container">
                             @yield('content')
-                            <div class="card-widgets">
-                                <div class="row">
-                                    <div class="col s12 m12 l4">
-                                        <div id="flight-card" class="card">
-                                            <div class="card-header deep-orange accent-2">
-                                                <div class="card-title">
-                                                    <h4 class="flight-card-title">Viaje</h4>
-                                                    <p class="flight-card-date">19 de septiembre, Jue 07:50</p>
-                                                </div>
-                                            </div>
-                                            <div class="card-content-bg white-text">
-                                                <div class="card-content">
-                                                    <div class="row flight-state-wrapper">
-                                                        <div class="col s5 m5 l5 center-align">
-                                                            <div class="flight-state">
-                                                                <p class="margin">Remigio Bosch 380</p>
-                                                                <p class="ultra-small">Neuquén</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col s2 m2 l2 center-align">
-                                                            <i class="material-icons" style="font-size: 2.5rem">directions_car</i>
-                                                        </div>
-                                                        <div class="col s5 m5 l5 center-align">
-                                                            <div class="flight-state">
-                                                                <p class="margin">Unco</p>
-                                                                <p class="ultra-small">Neuquén</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col s6 m6 l6 center-align">
-                                                            <div class="flight-info">
-                                                                <p class="small" style="font-size: 0.8rem !important">
-                                                                    <span class="grey-text text-lighten-4">Barrio:</span> Bouquet Roldan</p>
-                                                                <p class="small"  style="font-size: 0.8rem !important">
-                                                                    <span class="grey-text text-lighten-4">Disponibilidad:</span> 3/4</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col s6 m6 l6 center-align flight-state-two">
-                                                            <div class="flight-info">
-                                                                <p class="small">
-                                                                    <span class="grey-text text-lighten-4">Llegada:</span> 08.50</p>
+                            <router-view></router-view>
 
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
 
 
                         </div>
@@ -101,14 +55,21 @@
             <!-- END MAIN -->
             <!-- //////////////////////////////////////////////////////////////////////////// -->
             <!-- START FOOTER -->
-        @include('theme.back.layout.includes.footer')
-        <!-- END FOOTER -->
-            <!-- ================================================
-            Scripts
-            ================================================ -->
-         @include('theme.back.layout.includes.foot')
-
     </div>
+        @include('theme.back.layout.includes.footer')
 
+
+
+
+    <script type="text/javascript" src="{{asset('theme/plugins/jquery-3.2.1.min.js')}}"></script>
+
+    <!--materialize js-->
+    <script type="text/javascript" src="{{asset('theme/back/js/materialize.min.js')}}"></script>
+    <!--scrollbar-->
+    <script type="text/javascript" src="{{asset('theme/plugins/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
+    <!--plugins.js - Some Specific JS codes for Plugin Settings-->
+    <script type="text/javascript" src="{{asset('theme/back/js/plugins.js')}}"></script>
+    <!--custom-script.js - Add your own theme custom JS-->
+    <script type="text/javascript" src="{{asset('theme/back/js/custom-script.js')}}"></script>
 </body>
 </html>

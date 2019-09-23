@@ -24,6 +24,7 @@ class CreateTripsTable extends Migration
             $table->string('barrio')->nullable();
             $table->string('calle')->nullable();
             $table->integer('numero')->nullable();
+            $table->integer('lugares_disponibles');
             $table->string('latitud')->nullable();
             $table->string('longitud')->nullable();
             $table->timestamps();

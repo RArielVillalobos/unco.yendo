@@ -7,30 +7,50 @@
 @endsection
 
 @section('content')
-   <div class="row mt-5">
-       <div class="input-field col s6 offset-s2">
-           <input  id="first_name" type="text" class="validate">
-           <label for="first_name">E-mail</label>
-       </div>
+    <div>
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
+            <div class="row mt-5">
+                <div class="input-field col s6 offset-s2">
+                    <i class="material-icons prefix">mail_outline</i>
+                    <input  id="first_name" name="email" type="text" class="validate">
+                    <label for="first_name">E-mail</label>
+                    @error('email')
+                    <span class="helper-text error-login" data-error="wrong" data-success="right">{{ $message }}</span>
+                    @enderror
 
 
-   </div>
-   <div class="row">
-       <div class="input-field col s6 offset-s2">
-           <input  id="first_name" type="password" class="validate">
-           <label for="first_name">Password</label>
-       </div>
-
-   </div>
-   <div class="row">
-       <div class="col s6 offset-s2">
-           <button class="btn waves-effect orange darken-1light" type="submit" name="action">Iniciar Sesion
-               <i class="material-icons right">send</i>
-           </button>
-       </div>
+                </div>
 
 
-   </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6 offset-s2">
+                    <i class="material-icons prefix">lock_outline</i>
+                    <input name="password"  id="first_name" type="password" class="validate">
+                    <label for="first_name">Password</label>
+                    @error('password')
+                    <span class="helper-text error-login" data-error="wrong" data-success="right">{{ $message }}</span>
+                    @enderror
+                </div>
+
+            </div>
+            <div class="row mb-2">
+                <div class="col s6 offset-s2">
+                    <button class="btn waves-effect orange darken-1light" type="submit" name="action">Iniciar Sesion
+                        <i class="material-icons right">send</i>
+                    </button>
+                    <a href="{{route('register')}}" class="btn waves-effect orange darken-3" type="submit" name="action">Registrarme
+                        <i class="material-icons right">send</i>
+                    </a>
+                </div>
+
+
+            </div>
+        </form>
+    </div>
+
+
     {{--
 
 

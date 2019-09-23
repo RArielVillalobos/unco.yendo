@@ -14,16 +14,14 @@
 /*Route::get('/', function () {
     return view('theme.back.layout.admin');
 });*/
-Route::get('/app',function(){
+/*Route::get('/app',function(){
     return view('theme.back.layout.admin');
-});
+});*/
 Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/home',function(){
-    return view('home');
-});
+Route::get('/','HomeController@index');
 
 Route::prefix('trip')->group(function (){
      Route::get('create','TripController@create')->name('trip.create')->middleware('auth');
