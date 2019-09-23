@@ -18,8 +18,8 @@ class CreateTripsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->date('fecha');
-            $table->dateTime('hora');
-            $table->integer('tiempo_estimado');
+            $table->time('hora');
+            $table->integer('tiempo_estimado')->nullable();
             $table->string('ciudad')->nullable();
             $table->string('barrio')->nullable();
             $table->string('calle')->nullable();

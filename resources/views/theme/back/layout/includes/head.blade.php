@@ -14,5 +14,8 @@
     <link href="{{asset('theme/back/css/custom.css')}}" type="text/css" rel="stylesheet">
     <link href="{{asset('theme/plugins/perfect-scrollbar/perfect-scrollbar.css')}}" type="text/css" rel="stylesheet">
     <link href="{{asset('theme/plugins/flag-icon/css/flag-icon.min.css')}}" type="text/css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
 
     @yield('head')

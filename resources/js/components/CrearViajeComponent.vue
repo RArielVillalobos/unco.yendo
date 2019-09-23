@@ -1,76 +1,89 @@
 <template>
      <div class="container">
-          <div class="row mt-2">
-               <div class="input-field col s6 offset-s2">
-                    <i class="material-icons prefix">date_range</i>
-                    <input name="fecha"  id="fecha" type="date" class="validate">
+         <!--
+          <div class="row mt-2 center">
+             <p v-for="msj in arrayMsjs" style="color:red">{{msj}}</p>
+         </div>
+          -->
+
+
+         <form method="post" @submit.prevent>
+             <div class="row mt-2">
+                 <div class="input-field col s6 offset-s2">
+                     <i class="material-icons prefix">date_range</i>
+                     <input v-model="fecha"  id="fecha" type="date" class="validate" required>
 
 
 
-               </div>
+
+                 </div>
 
 
 
-          </div>
-          <div class="row mt-2">
-               <div class="input-field col s6 offset-s2">
-                    <i class="material-icons prefix">add_location</i>
-                    <input name="calle" id="calle" type="text" class="validate">
-                    <label for="calle">Calle</label>
+             </div>
+             <div class="row mt-2">
+                 <div class="input-field col s6 offset-s2">
+                     <i class="material-icons prefix">add_location</i>
+                     <input v-model="calle" id="calle" type="text" class="validate" required>
+                     <label for="calle">Calle</label>
 
 
 
-               </div>
-          </div>
-          <div class="row mt-2">
-               <div class="input-field col s6 offset-s2">
-                    <i class="material-icons prefix">looks_two</i>
-                    <input id="numero" type="number" class="validate" name="numero" required autocomplete="numero">
-                    <label for="numero">Numero</label>
+                 </div>
+             </div>
+             <div class="row mt-2">
+                 <div class="input-field col s6 offset-s2">
+                     <i class="material-icons prefix">looks_two</i>
+                     <input id="numero" type="number" class="validate" v-model="numero" autocomplete="numero" required>
+                     <label for="numero">Numero</label>
 
 
 
-               </div>
+                 </div>
 
-          </div>
+             </div>
 
-          <div class="row mt-2">
-               <div class="input-field col s6 offset-s2">
-                    <i class="material-icons prefix">timelapse</i>
-                    <input  name="hora" id="hora" type="time" class="validate">
-                    <label for="hora">Hora</label>
-
-               </div>
+             <div class="row mt-2">
+                 <div class="input-field col s6 offset-s2">
+                     <i class="material-icons prefix">timelapse</i>
+                     <input  id="hora" v-model="hora" type="time" class="validate" required>
 
 
 
-          </div>
-
-          <div class="row mt-2">
-               <div class="input-field col s6 offset-s2">
-                    <i class="material-icons prefix">directions_car</i>
-                    <input id="lugares_disponibles" type="number" class="validate" name="lugares_disponibles" required autocomplete="lugares_disponibles">
-                    <label for="lugares_disponibles">Lugares Disponibles</label>
+                 </div>
 
 
 
-               </div>
+             </div>
+
+             <div class="row mt-2">
+                 <div class="input-field col s6 offset-s2">
+                     <i class="material-icons prefix">directions_car</i>
+                     <input id="lugares_disponibles" v-model="lugares_disponibles" type="number" class="validate" name="lugares_disponibles" autocomplete="lugares_disponibles" required>
+                     <label for="lugares_disponibles">Lugares Disponibles</label>
 
 
 
-          </div>
+
+                 </div>
 
 
-          <div class="row mb-2">
-               <div class="col s6 offset-s2 center">
-                    <button class="btn waves-effect orange darken-1light" type="submit" name="action">Crear Viaje
+
+             </div>
+
+
+             <div class="row mb-2">
+                 <div class="col s6 offset-s2 center">
+                     <button @click="crearViaje"class="btn waves-effect orange darken-1light" type="submit" name="action">Crear Viaje
                          <i class="material-icons right">send</i>
-                    </button>
+                     </button>
 
-               </div>
+                 </div>
 
 
-          </div>
+             </div>
+         </form>
+
 
 
 
@@ -80,7 +93,9 @@
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
+
         name: "CrearViaje",
 
         data(){
@@ -89,7 +104,71 @@
                 calle:'',
                 numero:'',
                 hora:'',
-                lugares_disponibles:''
+                lugares_disponibles:'',
+                arrayMsjs:[],
+                error:0,
+
+
+            }
+        },
+        methods:{
+            validarFormularioViaje(){
+
+
+                if(this.calle===''){
+                    //this.errorMsjs.calle='';
+                    this.arrayMsjs.push('Ingrese calle de partida');
+                }
+                if(this.fecha===''){
+                    //this.errorMsjs.fecha='Ingrese fecha del viaje';
+                    this.arrayMsjs.push('Ingrese fecha del viaje');
+
+                }
+                if(this.hora===''){
+                    //this.errorMsjs.hora='Ingrese hora del viaje';
+                    this.arrayMsjs.push('Ingrese hora del viaje');
+
+                }
+                if(this.numero===''){
+                   // this.errorMsjs.numero='Ingrese numero de la calle';
+                    this.arrayMsjs.push('Ingrese numero de la calle');
+
+                }
+                if(this.lugares_disponibles<=0){
+                    //this.errorMsjs.lugares_disponibles='Debe ingresar la cantidad de lugares disponibles';
+                    this.arrayMsjs.push('Debe ingresar la cantidad de lugares disponibles');
+
+                }
+                if(this.arrayMsjs.length){
+                    this.error=1
+                }
+
+                return this.arrayMsjs;
+
+            },
+            crearViaje(){
+
+                axios.post('/trip/crear',
+                    {
+                        'fecha':this.fecha,
+                        'calle':this.calle,
+                        'numero':this.numero,
+                        'hora': this.hora,
+                        'lugares_disponibles':this.lugares_disponibles,
+
+                    }).then(function(){
+                    Swal.fire({
+                        title: 'Viaje creado!',
+                        text: 'Acabas de generar un viaje,felicitaciones',
+                        type: 'success',
+                        confirmButtonText: 'Continuar'
+                    })
+
+
+                }).catch(function(error){
+                    console.log(error);
+                })
+
 
             }
         }
