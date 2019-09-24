@@ -17,6 +17,8 @@ class CreateTripsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('car_id');
+            $table->foreign('car_id')->references('id')->on('cars');
             $table->date('fecha');
             $table->time('hora');
             $table->integer('tiempo_estimado')->nullable();
