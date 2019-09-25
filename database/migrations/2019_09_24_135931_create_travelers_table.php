@@ -19,6 +19,8 @@ class CreateTravelersTable extends Migration
             $table->foreign('trip_id')->references('id')->on('trips');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+            //si se subio al auto se pone en true
+            $table->boolean('me_subi')->default(false);
             $table->timestamps();
         });
     }

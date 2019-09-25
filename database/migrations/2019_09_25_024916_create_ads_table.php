@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTripsTable extends Migration
+class CreateAdsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,23 @@ class CreateTripsTable extends Migration
      */
     public function up()
     {
-        Schema::create('trips', function (Blueprint $table) {
+        Schema::create('ads', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('car_id')->nullable();
-            $table->foreign('car_id')->references('id')->on('cars');
             $table->date('fecha');
             $table->time('hora');
-            $table->integer('tiempo_estimado')->nullable();
             $table->string('ciudad')->nullable();
             $table->string('barrio')->nullable();
             $table->string('calle')->nullable();
             $table->integer('numero')->nullable();
-            $table->integer('lugares_disponibles');
             $table->string('latitud')->nullable();
             $table->string('longitud')->nullable();
+            //por defecto esta en false, si un creador del viaje lo suma a un viaje se pone en true
+            $table->boolean('estado')->default(false);
+            $table->unsignedBigInteger('trip_id')->nullable();
+            $table->foreign('trip_id')->references('id')->on('trips');
+
             $table->timestamps();
         });
     }
@@ -40,6 +41,6 @@ class CreateTripsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trips');
+        Schema::dropIfExists('ads');
     }
 }
