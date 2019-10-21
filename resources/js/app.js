@@ -24,6 +24,7 @@ Vue.component('cabeza', require('./layouts/Cabeza.vue').default);
 Vue.component('left-sidebar', require('./layouts/LeftSideBar').default);
 Vue.component('viaje', require('./components/Viaje').default);
 Vue.component('home', require('./components/Home').default);
+Vue.component('MyMapAPI', require('./components/MyMapAPI.vue').default);
 
 import router from './routes.js'
 
