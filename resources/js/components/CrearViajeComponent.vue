@@ -9,10 +9,9 @@
              </div>
              <div class="row mt-2">
                  <div class="input-field col s6 offset-s2">
-                     <i class="material-icons prefix">add_location</i>
-                     <input v-model="calle" id="calle" type="text" class="validate" required>
-                     <label for="calle">Calle</label>
+                     <autocompleteaddress></autocompleteaddress>
                  </div>
+                 
              </div>
              <div class="row mt-2">
                  <div class="input-field col s6 offset-s2">
@@ -37,13 +36,13 @@
              </div>
              <div class="row mb-2">
                  <div class="col s6 offset-s2 center">
-                     <button @click="crearViaje"class="btn waves-effect orange darken-1light" type="submit" name="action">Crear Viaje
+                     <button @click="crearViaje" class="btn waves-effect orange darken-1light" type="submit" name="action">Crear Viaje
                          <i class="material-icons right">send</i>
                      </button>
                  </div>
              </div>
          </form>
-     <MyMapAPI></MyMapAPI>
+     
      </div>
      
 
@@ -51,8 +50,6 @@
 
 <script>
     import axios from 'axios';
-   // import MyMapAPI from 'MyMapAPI';
-   
 
     export default {
         name: "CrearViaje",
@@ -114,7 +111,8 @@
                 }).catch(function(error){
                     console.log(error);
                 })
-            }
+            },
+           
         }
     }
 </script>

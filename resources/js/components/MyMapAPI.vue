@@ -1,67 +1,45 @@
 <template>
 <div id="container">
-  <div id="location-field">
-    <input id="autocomplete" placeholder="Origen" onFocus="geolocate()" type="text"/>
-    <input id="end" type="text" value="Buenos Aires 1400, Q8300 Neuquén, Argentina" style="visibility:hidden"/>
+    <input id="waypoints"  type="text" value=" " style="visibility:hidden"/>
+    <input id="end"  type="text" value="Buenos Aires 1400, Q8300 Neuquén, Argentina" style="visibility:hidden"/>
     <input type="submit" id="submit" value="ver ruta">
-  </div>
-<div id="map"></div>
+    <div id="map"></div>
 </div>
- 
 </template>
-
 
 <script>
   export default {
-        name: "MyMapAPI",
+        name: "mymap-api",
         mounted(){
-
-   var placeSearch, autocomplete;
-   var directionsService = new google.maps.DirectionsService;
-   var directionsRenderer = new google.maps.DirectionsRenderer;
-   var map = new google.maps.Map(document.getElementById('map'), {
+        var directionsService = new google.maps.DirectionsService;
+        var directionsRenderer = new google.maps.DirectionsRenderer;
+        var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 12,
           center: {lat: -38.94014990000001, lng: -68.0573579}
         });
         directionsRenderer.setMap(map);
+
         document.getElementById('submit').addEventListener('click', function() {
           calculateAndDisplayRoute(directionsService, directionsRenderer);
         });
-        
-  // Create the autocomplete object, restricting the search predictions to
-  // geographical location types.
-  autocomplete = new google.maps.places.Autocomplete(
-      document.getElementById('autocomplete'), {types: ['address']});
+      
 
-  // Avoid paying for data that you don't need by restricting the set of
-  // place fields that are returned to just the address components.
-  autocomplete.setFields(['address_component']);
+      function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+        var waypts = [];
+        var checkboxArray = document.getElementById('waypoints');
+        for (var i = 0; i < checkboxArray.length; i++) {
+          if (checkboxArray.options[i].selected) {
+            waypts.push({
+              location: checkboxArray[i].value,
+              stopover: true
+            });
+          }
+        }
 
-  // When the user selects an address from the drop-down, populate the
-  // address fields in the form.
-  autocomplete.addListener('place_changed', fillInAddress);
-
-
-// Bias the autocomplete object to the user's geographical location,
-// as supplied by the browser's 'navigator.geolocation' object.
-function geolocate() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var geolocation = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
-      var circle = new google.maps.Circle(
-          {center: geolocation, radius: position.coords.accuracy});
-      autocomplete.setBounds(circle.getBounds());
-    });
-  }
-}
-
-function calculateAndDisplayRoute(directionsService, directionsRenderer) {
-          directionsService.route({
-          origin: document.getElementById('autocomplete').value,
+        directionsService.route({
+          origin: document.getElementById('from').value,
           destination: document.getElementById('end').value,
+          waypoints: waypts,
           optimizeWaypoints: true,
           travelMode: 'DRIVING'
         }, function(response, status) {
@@ -70,31 +48,32 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer) {
             var route = response.routes[0];
             var summaryPanel = document.getElementById('directions-panel');
             summaryPanel.innerHTML = '';
+            // For each route, display summary information.
+            for (var i = 0; i < route.legs.length; i++) {
+              var routeSegment = i + 1;
+              summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+                  '</b><br>';
+              summaryPanel.innerHTML += route.legs[i].start_address + ' hacia ';
+              summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+              summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+            }
           } else {
-            window.alert('Direccion Fallida debido a ' + status);
+            window.alert('Directions request failed due to ' + status);
           }
         });
-}
+      }
 
   }
 
   }
+        
+    
 </script>
 
 <style scoped>
 #map {
-        height: 300px;
-        width: 500px
-      }
-#autocomplete {
-        top: 0px;
-        left: 0px;
-        width: 50%;
-      }
-#locationField {
-        -webkit-box-flex: 1 1 190px;
-        -ms-flex: 1 1 190px;
-        flex: 1 1 190px;
-        margin: 0 8px;
-      }
+    width:400px ;
+    height: 300px;
+    }
+
 </style>
