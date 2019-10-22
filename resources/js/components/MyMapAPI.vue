@@ -1,5 +1,6 @@
 <template>
-<div id="container">
+<div >
+  <input  id="from" placeholder="calle" type="text"/>
     <input id="waypoints"  type="text" value=" " style="visibility:hidden"/>
     <input id="end"  type="text" value="Buenos Aires 1400, Q8300 Neuquén, Argentina" style="visibility:hidden"/>
     <input type="submit" id="submit" value="ver ruta">
@@ -10,7 +11,16 @@
 <script>
   export default {
         name: "mymap-api",
+        data(){
+          return {
+            from:""
+          }
+        },
         mounted(){
+          //autocomplete
+        var  autocomplete = new google.maps.places.Autocomplete(
+          document.getElementById('from'), {types: ['geocode']});
+
         var directionsService = new google.maps.DirectionsService;
         var directionsRenderer = new google.maps.DirectionsRenderer;
         var map = new google.maps.Map(document.getElementById('map'), {

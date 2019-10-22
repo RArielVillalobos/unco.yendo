@@ -1847,27 +1847,59 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "AutocompleteAddress",
+  name: "autocompleteaddress",
   data: function data() {
-    return autocomplete = '';
+    return {
+      calle: ''
+    };
   },
   mounted: function mounted() {
-    var _this = this;
-
-    this.autocomplete = new google.maps.places.Autocomplete(this.$refs.autocomplete, {
+    var placeSearch, autocomplete;
+    var componentForm = {
+      street_number: 'short_name',
+      route: 'long_name',
+      locality: 'long_name',
+      administrative_area_level_1: 'short_name',
+      country: 'long_name',
+      postal_code: 'short_name'
+    };
+    autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'), {
       types: ['geocode']
-    }); // para obtener las coordenadas y el nombre de la calle que eligio
-
-    this.autocomplete.addListener('place_changed', function () {
-      var place = _this.autocomplete.getPlace();
-
-      var ac = place.address_components;
-      var lat = place.geometry.location.lat();
-      var lon = place.geometry.location.lng();
-      var city = ac[0]["short_name"];
-      var calle = "el usuario eligio ".concat(city, " con las coordenadas ").concat(lat, ", ").concat(lon);
     });
+    autocomplete.setFields(['address_component']);
+    autocomplete.addListener('place_changed', fillInAddress);
+    $(document).ready(function () {
+      $("autocomplete").keyup(function () {
+        var value = $(this).val();
+        $("calle").val(value);
+      });
+    });
+
+    function fillInAddress() {
+      // Get the place details from the autocomplete object.
+      var place = autocomplete.getPlace();
+
+      for (var component in componentForm) {
+        document.getElementById(component).value = '';
+        document.getElementById(component).disabled = false;
+      } // Get each component of the address from the place details,
+      // and then fill-in the corresponding field on the form.
+
+
+      for (var i = 0; i < place.address_components.length; i++) {
+        var addressType = place.address_components[i].types[0];
+
+        if (componentForm[addressType]) {
+          var val = place.address_components[i][componentForm[addressType]];
+          document.getElementById(addressType).value = val;
+        }
+      }
+    }
+
+    ;
   }
 });
 
@@ -2057,9 +2089,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "mymap-api",
+  data: function data() {
+    return {
+      from: ""
+    };
+  },
   mounted: function mounted() {
+    //autocomplete
+    var autocomplete = new google.maps.places.Autocomplete(document.getElementById('from'), {
+      types: ['geocode']
+    });
     var directionsService = new google.maps.DirectionsService();
     var directionsRenderer = new google.maps.DirectionsRenderer();
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -3511,25 +3553,33 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { attrs: { id: "container" } }, [
+    _c("input", {
+      attrs: {
+        id: "autocomplete",
+        placeholder: "Enter your address",
+        type: "text"
+      }
+    }),
+    _vm._v(" "),
     _c("input", {
       directives: [
         {
           name: "model",
           rawName: "v-model",
-          value: _vm.autocomplete,
-          expression: "autocomplete"
+          value: _vm.calle,
+          expression: "calle"
         }
       ],
-      ref: "autocomplete",
-      attrs: { placeholder: "origen", onfocus: "value = ''", type: "text" },
-      domProps: { value: _vm.autocomplete },
+      staticStyle: { visibility: "hidden" },
+      attrs: { id: "calle", type: "text", value: " " },
+      domProps: { value: _vm.calle },
       on: {
         input: function($event) {
           if ($event.target.composing) {
             return
           }
-          _vm.autocomplete = $event.target.value
+          _vm.calle = $event.target.value
         }
       }
     })
@@ -3603,7 +3653,7 @@ var render = function() {
           _c(
             "div",
             { staticClass: "input-field col s6 offset-s2" },
-            [_c("autocompleteaddress")],
+            [_c("mymap-api")],
             1
           )
         ]),
@@ -3822,7 +3872,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { attrs: { id: "container" } }, [
+    return _c("div", [
+      _c("input", {
+        attrs: { id: "from", placeholder: "calle", type: "text" }
+      }),
+      _vm._v(" "),
       _c("input", {
         staticStyle: { visibility: "hidden" },
         attrs: { id: "waypoints", type: "text", value: " " }

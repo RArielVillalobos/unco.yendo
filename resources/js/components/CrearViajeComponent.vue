@@ -9,7 +9,7 @@
              </div>
              <div class="row mt-2">
                  <div class="input-field col s6 offset-s2">
-                     <autocompleteaddress></autocompleteaddress>
+                     <mymap-api></mymap-api>
                  </div>
                  
              </div>
@@ -111,10 +111,11 @@
                 }).catch(function(error){
                     console.log(error);
                 })
-            },
+            }
            
         }
     }
+
 </script>
 
 <style scoped>
