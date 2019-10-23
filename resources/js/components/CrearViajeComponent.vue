@@ -3,15 +3,15 @@
          <form method="post" @submit.prevent>
              <div class="row mt-2">
                  <div class="input-field col s6 offset-s2">
-                     <i class="material-icons prefix">date_range</i>
-                     <input v-model="fecha"  id="fecha" type="date" class="validate" required>
+                     <autocompleteaddress></autocompleteaddress>
+                     
                  </div>
              </div>
              <div class="row mt-2">
                  <div class="input-field col s6 offset-s2">
-                     <mymap-api></mymap-api>
+                     <i class="material-icons prefix">date_range</i>
+                     <input v-model="fecha"  id="fecha" type="date" class="validate" required>
                  </div>
-                 
              </div>
              <div class="row mt-2">
                  <div class="input-field col s6 offset-s2">

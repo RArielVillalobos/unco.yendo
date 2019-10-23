@@ -1851,55 +1851,128 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "autocompleteaddress",
-  data: function data() {
-    return {
-      calle: ''
-    };
-  },
   mounted: function mounted() {
-    var placeSearch, autocomplete;
-    var componentForm = {
-      street_number: 'short_name',
-      route: 'long_name',
-      locality: 'long_name',
-      administrative_area_level_1: 'short_name',
-      country: 'long_name',
-      postal_code: 'short_name'
+    var directionsService = new google.maps.DirectionsService();
+    var directionsDisplay = new google.maps.DirectionsRenderer();
+    var map, places, infoWindow, autocomplete;
+    var markers = [];
+    var countryRestrict = {
+      'country': 'ar'
     };
-    autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'), {
-      types: ['geocode']
-    });
-    autocomplete.setFields(['address_component']);
-    autocomplete.addListener('place_changed', fillInAddress);
-    $(document).ready(function () {
-      $("autocomplete").keyup(function () {
-        var value = $(this).val();
-        $("calle").val(value);
-      });
-    });
+    var countries = {
+      'ar': {
+        center: {
+          lat: -38.94,
+          lng: -68.05
+        },
+        zoom: 13
+      }
+    }; //inicializamos y personalizamos el mapa
 
-    function fillInAddress() {
-      // Get the place details from the autocomplete object.
+    map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 13,
+      center: {
+        lat: -38.94014990000001,
+        lng: -68.0573579
+      },
+      mapTypeControl: false,
+      // tipo de mapa
+      panControl: false,
+      // panel de control
+      zoomControl: false,
+      // para ver el simbolo + - 
+      streetViewControl: false //para habilitar street view
+
+    });
+    infoWindow = new google.maps.InfoWindow({
+      content: document.getElementById('info-content')
+    }); //creamos el autocomplete y el tipo de datos que queremos pedir y restringimos a el pais
+
+    autocomplete = new google.maps.places.Autocomplete(
+    /** @type {!HTMLInputElement} */
+    document.getElementById('autocomplete'), {
+      types: ['address'],
+      componentRestrictions: countryRestrict
+    });
+    places = new google.maps.places.PlacesService(map);
+    autocomplete.addListener('place_changed', onPlaceChanged); // Agrega un detector de eventos DOM para reaccionar cuando el usuario selecciona un país.
+
+    document.getElementById('country').addEventListener('change', setAutocompleteCountry); // Cuando el usuario selecciona una ciudad, obtenga los detalles 
+    // del lugar para la ciudad y acerca el mapa a la ciudad y dibuja la ruta 
+
+    function onPlaceChanged() {
       var place = autocomplete.getPlace();
 
-      for (var component in componentForm) {
-        document.getElementById(component).value = '';
-        document.getElementById(component).disabled = false;
-      } // Get each component of the address from the place details,
-      // and then fill-in the corresponding field on the form.
+      if (place.geometry) {
+        var latitude = place.geometry.location.lat();
+        var longitude = place.geometry.location.lng();
+        map.panTo(place.geometry.location);
+        map.setZoom(16);
+        ruta(latitude, longitude);
+      } else {
+        document.getElementById('autocomplete').placeholder = 'Calle ';
+      }
+    } //para limpiar el mapa
 
 
-      for (var i = 0; i < place.address_components.length; i++) {
-        var addressType = place.address_components[i].types[0];
-
-        if (componentForm[addressType]) {
-          var val = place.address_components[i][componentForm[addressType]];
-          document.getElementById(addressType).value = val;
+    function clearMarkers() {
+      for (var i = 0; i < markers.length; i++) {
+        if (markers[i]) {
+          markers[i].setMap(null);
         }
       }
-    }
 
-    ;
+      markers = [];
+    } // Establece la restricción de país según la entrada del usuario.
+    // También centre y amplíe el mapa en el país dado.
+
+
+    function setAutocompleteCountry() {
+      var country = document.getElementById('country').value;
+
+      if (country == 'all') {
+        autocomplete.setComponentRestrictions({
+          'country': []
+        });
+        map.setCenter({
+          lat: 15,
+          lng: 0
+        });
+        map.setZoom(2);
+      } else {
+        autocomplete.setComponentRestrictions({
+          'country': country
+        });
+        map.setCenter(countries[country].center);
+        map.setZoom(countries[country].zoom);
+      }
+
+      clearMarkers();
+    } // dibuja la ruta en el mapa 
+
+
+    function ruta(latitude, longitude) {
+      directionsDisplay.setMap(map);
+      directionsService.route({
+        origin: {
+          lat: latitude,
+          lng: longitude
+        },
+        //origen
+        destination: {
+          lat: -38.94014990000001,
+          lng: -68.0573579
+        },
+        //fin            
+        travelMode: google.maps.TravelMode.WALKING
+      }, function (response, status) {
+        if (status === google.maps.DirectionsStatus.OK) {
+          directionsDisplay.setDirections(response);
+        } else {
+          window.alert('fallo la coneccion con el mapa a causa de: ' + status);
+        }
+      });
+    }
   }
 });
 
@@ -2099,8 +2172,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     //autocomplete
-    var autocomplete = new google.maps.places.Autocomplete(document.getElementById('from'), {
-      types: ['geocode']
+    var autocomplete = new google.maps.places.Autocomplete(document.getElementById('from').value, {
+      types: ['address']
     });
     var directionsService = new google.maps.DirectionsService();
     var directionsRenderer = new google.maps.DirectionsRenderer();
@@ -2140,15 +2213,7 @@ __webpack_require__.r(__webpack_exports__);
           directionsRenderer.setDirections(response);
           var route = response.routes[0];
           var summaryPanel = document.getElementById('directions-panel');
-          summaryPanel.innerHTML = ''; // For each route, display summary information.
-
-          for (var i = 0; i < route.legs.length; i++) {
-            var routeSegment = i + 1;
-            summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
-            summaryPanel.innerHTML += route.legs[i].start_address + ' hacia ';
-            summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-            summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
-          }
+          summaryPanel.innerHTML = '';
         } else {
           window.alert('Directions request failed due to ' + status);
         }
@@ -2400,6 +2465,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "LeftSideBar"
 });
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AutocompleteAddress.vue?vue&type=style&index=0&id=11ef16d1&scoped=true&lang=css&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AutocompleteAddress.vue?vue&type=style&index=0&id=11ef16d1&scoped=true&lang=css& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n#map[data-v-11ef16d1] {\n       height: 300px;\n       width: 300px;\n}\n", ""]);
+
+// exports
+
 
 /***/ }),
 
@@ -2921,6 +3005,36 @@ process.umask = function() { return 0; };
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js"), __webpack_require__(/*! ./../process/browser.js */ "./node_modules/process/browser.js")))
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AutocompleteAddress.vue?vue&type=style&index=0&id=11ef16d1&scoped=true&lang=css&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AutocompleteAddress.vue?vue&type=style&index=0&id=11ef16d1&scoped=true&lang=css& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./AutocompleteAddress.vue?vue&type=style&index=0&id=11ef16d1&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AutocompleteAddress.vue?vue&type=style&index=0&id=11ef16d1&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
@@ -3553,39 +3667,34 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { attrs: { id: "container" } }, [
-    _c("input", {
-      attrs: {
-        id: "autocomplete",
-        placeholder: "Enter your address",
-        type: "text"
-      }
-    }),
-    _vm._v(" "),
-    _c("input", {
-      directives: [
-        {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.calle,
-          expression: "calle"
-        }
-      ],
-      staticStyle: { visibility: "hidden" },
-      attrs: { id: "calle", type: "text", value: " " },
-      domProps: { value: _vm.calle },
-      on: {
-        input: function($event) {
-          if ($event.target.composing) {
-            return
-          }
-          _vm.calle = $event.target.value
-        }
-      }
-    })
-  ])
+  return _vm._m(0)
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("input", {
+        attrs: {
+          id: "autocomplete",
+          placeholder: "ingrese origen",
+          type: "text"
+        }
+      }),
+      _vm._v(" "),
+      _c("select", { attrs: { id: "country" } }, [
+        _c("option", { attrs: { value: "all" } }, [_vm._v("All")]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "ar", selected: "" } }, [
+          _vm._v("argentina.")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "map" } })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -3620,6 +3729,15 @@ var render = function() {
       },
       [
         _c("div", { staticClass: "row mt-2" }, [
+          _c(
+            "div",
+            { staticClass: "input-field col s6 offset-s2" },
+            [_c("autocompleteaddress")],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row mt-2" }, [
           _c("div", { staticClass: "input-field col s6 offset-s2" }, [
             _c("i", { staticClass: "material-icons prefix" }, [
               _vm._v("date_range")
@@ -3647,15 +3765,6 @@ var render = function() {
               }
             })
           ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row mt-2" }, [
-          _c(
-            "div",
-            { staticClass: "input-field col s6 offset-s2" },
-            [_c("mymap-api")],
-            1
-          )
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "row mt-2" }, [
@@ -3865,40 +3974,48 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("input", {
-        attrs: { id: "from", placeholder: "calle", type: "text" }
-      }),
-      _vm._v(" "),
-      _c("input", {
-        staticStyle: { visibility: "hidden" },
-        attrs: { id: "waypoints", type: "text", value: " " }
-      }),
-      _vm._v(" "),
-      _c("input", {
-        staticStyle: { visibility: "hidden" },
-        attrs: {
-          id: "end",
-          type: "text",
-          value: "Buenos Aires 1400, Q8300 Neuquén, Argentina"
+  return _c("div", [
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.from,
+          expression: "from"
         }
-      }),
-      _vm._v(" "),
-      _c("input", {
-        attrs: { type: "submit", id: "submit", value: "ver ruta" }
-      }),
-      _vm._v(" "),
-      _c("div", { attrs: { id: "map" } })
-    ])
-  }
-]
+      ],
+      attrs: { id: "from", placeholder: "calle", type: "text" },
+      domProps: { value: _vm.from },
+      on: {
+        input: function($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.from = $event.target.value
+        }
+      }
+    }),
+    _vm._v(" "),
+    _c("input", {
+      staticStyle: { visibility: "hidden" },
+      attrs: { id: "waypoints", type: "text", value: " " }
+    }),
+    _vm._v(" "),
+    _c("input", {
+      staticStyle: { visibility: "hidden" },
+      attrs: {
+        id: "end",
+        type: "text",
+        value: "Buenos Aires 1400, Q8300 Neuquén, Argentina"
+      }
+    }),
+    _vm._v(" "),
+    _c("input", { attrs: { type: "submit", id: "submit", value: "ver ruta" } }),
+    _vm._v(" "),
+    _c("div", { attrs: { id: "map" } })
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -19535,7 +19652,9 @@ var app = new Vue({
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AutocompleteAddress_vue_vue_type_template_id_11ef16d1_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AutocompleteAddress.vue?vue&type=template&id=11ef16d1&scoped=true& */ "./resources/js/components/AutocompleteAddress.vue?vue&type=template&id=11ef16d1&scoped=true&");
 /* harmony import */ var _AutocompleteAddress_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AutocompleteAddress.vue?vue&type=script&lang=js& */ "./resources/js/components/AutocompleteAddress.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _AutocompleteAddress_vue_vue_type_style_index_0_id_11ef16d1_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AutocompleteAddress.vue?vue&type=style&index=0&id=11ef16d1&scoped=true&lang=css& */ "./resources/js/components/AutocompleteAddress.vue?vue&type=style&index=0&id=11ef16d1&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -19543,7 +19662,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _AutocompleteAddress_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _AutocompleteAddress_vue_vue_type_template_id_11ef16d1_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
   _AutocompleteAddress_vue_vue_type_template_id_11ef16d1_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -19572,6 +19691,22 @@ component.options.__file = "resources/js/components/AutocompleteAddress.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AutocompleteAddress_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./AutocompleteAddress.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AutocompleteAddress.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AutocompleteAddress_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/AutocompleteAddress.vue?vue&type=style&index=0&id=11ef16d1&scoped=true&lang=css&":
+/*!******************************************************************************************************************!*\
+  !*** ./resources/js/components/AutocompleteAddress.vue?vue&type=style&index=0&id=11ef16d1&scoped=true&lang=css& ***!
+  \******************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AutocompleteAddress_vue_vue_type_style_index_0_id_11ef16d1_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./AutocompleteAddress.vue?vue&type=style&index=0&id=11ef16d1&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AutocompleteAddress.vue?vue&type=style&index=0&id=11ef16d1&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AutocompleteAddress_vue_vue_type_style_index_0_id_11ef16d1_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AutocompleteAddress_vue_vue_type_style_index_0_id_11ef16d1_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AutocompleteAddress_vue_vue_type_style_index_0_id_11ef16d1_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AutocompleteAddress_vue_vue_type_style_index_0_id_11ef16d1_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AutocompleteAddress_vue_vue_type_style_index_0_id_11ef16d1_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
