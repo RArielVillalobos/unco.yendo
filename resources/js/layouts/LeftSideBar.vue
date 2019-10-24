@@ -27,8 +27,8 @@
                                     <i class="material-icons">keyboard_tab</i>Salir</a>
                             </li>
                         </ul>
-                        <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown-nav">Nombre User<i class="mdi-navigation-arrow-drop-down right"></i></a>
-                        <p class="user-roal">Administrator</p>
+                        <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown-nav">Menu<i class="mdi-navigation-arrow-drop-down right"></i></a>
+                        <p class="user-roal"></p>
                     </div>
                 </div>
             </li>
@@ -48,6 +48,7 @@
 
                         </a>
                     </li>
+                    
                 </ul>
             </li>
         </ul>

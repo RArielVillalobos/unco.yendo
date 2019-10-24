@@ -1,9 +1,9 @@
 <template>
     <div>
-        <h3>Busca tu canción preferida</h3>
+        <h4>Busca tu canción preferida</h4>
         <form @submit.prevent>
             <input type="text" v-model="query">
-            <button @click="buscarCancion()" type="submit">Buscar</button>
+            <button @click="buscarCancion()" type="submit" class="btn waves-effect orange darken-1light">Buscar</button>
         </form>
         <div  v-for="(track,index) in tracks" v-bind:key="index">
             <img :src="track.album.images[0].url"  width="200"/>

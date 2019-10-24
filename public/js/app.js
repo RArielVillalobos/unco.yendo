@@ -2044,7 +2044,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       fecha: '',
-      calle: '',
+      // calle:'',
       numero: '',
       hora: '',
       lugares_disponibles: '',
@@ -2185,8 +2185,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "PublicarAnuncio"
+  name: "PublicarAnuncio",
+  mounted: function mounted() {
+    autocomplete = new google.maps.places.Autocomplete(
+    /** @type {!HTMLInputElement} */
+    document.getElementById('calle'), {
+      types: ['address']
+    });
+  }
 });
 
 /***/ }),
@@ -2592,11 +2606,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Header",
   data: function data() {
@@ -2617,6 +2626,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -4094,7 +4104,7 @@ var render = function() {
             staticClass: "waves-effect orange darken-1 btn",
             attrs: { to: "/publicaranuncio" }
           },
-          [_vm._v("Publicar anuncio de viaje ")]
+          [_vm._v("Publicar busqueda de viaje ")]
         )
       ],
       1
@@ -4184,9 +4194,7 @@ var render = function() {
               _vm.calle = $event.target.value
             }
           }
-        }),
-        _vm._v(" "),
-        _c("label", { attrs: { for: "calle" } }, [_vm._v("Calle y altura")])
+        })
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "input-field col s6 offset-s2" }, [
@@ -4248,6 +4256,23 @@ var render = function() {
       ]),
       _vm._v(" "),
       _vm._m(0)
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row mb-2" }, [
+      _c("div", { staticClass: "col s6 offset-s2 center" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn waves-effect orange darken-1light",
+            attrs: { type: "submit", name: "action" },
+            on: { click: _vm.crearViaje }
+          },
+          [
+            _vm._v("Publicar Solicitud\n                      "),
+            _c("i", { staticClass: "material-icons right" }, [_vm._v("send")])
+          ]
+        )
+      ])
     ])
   ])
 }
@@ -4614,7 +4639,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("h3", [_vm._v("Busca tu canción preferida")]),
+      _c("h4", [_vm._v("Busca tu canción preferida")]),
       _vm._v(" "),
       _c(
         "form",
@@ -4650,6 +4675,7 @@ var render = function() {
           _c(
             "button",
             {
+              staticClass: "btn waves-effect orange darken-1light",
               attrs: { type: "submit" },
               on: {
                 click: function($event) {
@@ -4857,8 +4883,6 @@ var render = function() {
             _vm._v(" "),
             _vm._m(1),
             _vm._v(" "),
-            _vm._m(2),
-            _vm._v(" "),
             _c(
               "ul",
               {
@@ -4866,11 +4890,11 @@ var render = function() {
                 attrs: { id: "profile-dropdown" }
               },
               [
+                _vm._m(2),
+                _vm._v(" "),
                 _vm._m(3),
                 _vm._v(" "),
                 _vm._m(4),
-                _vm._v(" "),
-                _vm._m(5),
                 _vm._v(" "),
                 _c("li", { staticClass: "divider" }),
                 _vm._v(" "),
@@ -4881,7 +4905,7 @@ var render = function() {
                       domProps: { value: _vm.csrf }
                     }),
                     _vm._v(" "),
-                    _vm._m(6)
+                    _vm._m(5)
                   ])
                 ])
               ]
@@ -4922,27 +4946,6 @@ var staticRenderFns = [
         ])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "header-search-wrapper hide-on-med-and-down" },
-      [
-        _c("i", { staticClass: "material-icons" }, [_vm._v("search")]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "header-search-input z-depth-2",
-          attrs: {
-            type: "text",
-            name: "Search",
-            placeholder: "Explore Materialize"
-          }
-        })
-      ]
-    )
   },
   function() {
     var _vm = this
@@ -5180,14 +5183,14 @@ var staticRenderFns = [
                     }
                   },
                   [
-                    _vm._v("Nombre User"),
+                    _vm._v("Menu"),
                     _c("i", {
                       staticClass: "mdi-navigation-arrow-drop-down right"
                     })
                   ]
                 ),
                 _vm._v(" "),
-                _c("p", { staticClass: "user-roal" }, [_vm._v("Administrator")])
+                _c("p", { staticClass: "user-roal" })
               ])
             ])
           ]),
@@ -21011,8 +21014,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /var/www/html/unco.yendo/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /var/www/html/unco.yendo/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\unco.yendo\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\unco.yendo\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
