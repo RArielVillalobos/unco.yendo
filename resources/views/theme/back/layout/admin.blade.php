@@ -71,5 +71,9 @@
     <script type="text/javascript" src="{{asset('theme/back/js/plugins.js')}}"></script>
     <!--custom-script.js - Add your own theme custom JS-->
     <script type="text/javascript" src="{{asset('theme/back/js/custom-script.js')}}"></script>
+    <!--para conectar con api de google maps pass y libreria de direcciones-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJi7Yn_GQdgH7fFH1hEs0n2gGjs2Hh2Ew&libraries=places"></script>
+    @yield('scripts')
+
 </body>
 </html>

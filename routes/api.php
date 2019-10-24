@@ -18,4 +18,8 @@ use Illuminate\Http\Request;
 });*/
 
 Route::get('students','AlumnosController@index')->name('student.index');
-Route::get('students/{dni}','AlumnosController@show')->name('student.show');
+Route::get('students/{legajo}','AlumnosController@show')->name('student.show');
+Route::post('students/new','AlumnosController@store')->name('students.store');
+Route::put('students/{legajo}','AlumnosController@update')->name('students.update');
+Route::delete('students/{legajo}','AlumnosController@destroy')->name('students.destroy');
+
