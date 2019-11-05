@@ -129,56 +129,69 @@
                 email:'',
                 nombreUsu:'',
                 contrasenia:'',
-                contrasenia_confirmation:''
+                contrasenia_confirmation:'',
+                alumno_activo:false
             }
         },
         methods:{
-           /* validarAlumno(){
-                var existe=false;
+            validarAlumno(){
+
                 axios.get('/api/students/'+this.legajo)
                     .then(response => {
-                       console.log(response.data);
-                       if(response.data=='error'){
-                           existe=false;
-                       }else{
-                           existe=true;
-                           console.log('existe');
+                        //si el alumno existe en la base de datos de la api
+                       if(response.data){
+                           this.alumno_activo=true;
+
                        }
+
+
                     })
+                    //si no existe o hubo algún error
                     .catch(e => {
-                        // Podemos mostrar los errores en la consola
+                        this.alumno_activo=false;
+                    });
 
-                    })
 
-                return existe;
 
-            },*/
+            },
             enviarForm(){
-                //console.log(this.validarAlumno());
-                axios.post('/register',
-                    {
-                        'nombre':this.nombre,
-                        'apellido':this.apellido,
-                        'legajo':this.legajo,
-                        'email': this.email,
-                        'usuario':this.nombre,
-                        'password':this.contrasenia,
-                        'password_confirmation':this.contrasenia_confirmation
+                this.validarAlumno();
+                if(this.alumno_activo==true){
+                    console.log('aca');
+                     axios.post('/register',
+                   {
+                       'nombre':this.nombre,
+                       'apellido':this.apellido,
+                       'legajo':this.legajo,
+                       'email': this.email,
+                       'usuario':this.nombre,
+                       'password':this.contrasenia,
+                       'password_confirmation':this.contrasenia_confirmation
 
 
-                    }).then(function(){
+                   }).then(function(){
+                         Swal.fire({
+                             title: 'Usuario creado correctamente!',
+                             text: 'Haz click para ingresar al sistema',
+                             type: 'success',
+                             confirmButtonText: 'Continuar'
+                         })
+                   window.location.href = '/';
+
+
+               }).catch(function(error){
+
+               })
+
+                }else{
                     Swal.fire({
-                        title: 'Viaje creado!',
-                        text: 'Acabas de generar un viaje,felicitaciones',
-                        type: 'success',
+                        title: 'Hubo un error al generar el usuario!',
+                        text: 'Lo sentimos, no eres alumno activo de la Univerisdad Nacional del Comahue',
+                        type: 'error',
                         confirmButtonText: 'Continuar'
                     })
-                    window.location.href = '/';
+                }
 
-
-                }).catch(function(error){
-                    console.log(error);
-                })
 
             }
         }

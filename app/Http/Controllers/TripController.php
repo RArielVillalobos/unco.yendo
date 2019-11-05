@@ -8,8 +8,11 @@ use Illuminate\Http\Request;
 class TripController extends Controller
 {
     //
+    public function create(){
+        return view('trip.create');
+    }
 
-    public function create(Request $request){
+    public function store(Request $request){
        // $hora = strtotime($request->hora);
         $trip=Trip::create([
             'calle'=>$request->calle,

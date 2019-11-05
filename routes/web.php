@@ -23,6 +23,7 @@ Auth::routes();
 
 Route::get('/','HomeController@index');
 
-Route::prefix('trip')->group(function (){
-     Route::post('crear','TripController@create')->name('trip.create')->middleware('auth');
-});
+//viaje
+Route::get('crear','TripController@create')->name('trip.create')->middleware('auth');
+Route::post('store','TripController@store')->name('trip.store')->middleware('auth');
+

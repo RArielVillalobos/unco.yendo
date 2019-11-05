@@ -8,7 +8,9 @@
 @endsection
 
 @section('content')
+    <crear-viaje>
 
+    </crear-viaje>
 
 
 @endsection

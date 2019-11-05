@@ -37,14 +37,24 @@
                     <li class="bold">
                         <a href="#" class="waves-effect waves-cyan">
                             <i class="material-icons">pie_chart_outlined</i>
-                            <span class="nav-text">Panel de administración</span>
+                            <span class="nav-text">Mis viajes</span>
 
                         </a>
                     </li>
                     <li class="bold">
-                        <a href="#" class="waves-effect waves-cyan">
+                        <a href="index.html" class="waves-effect waves-cyan">
                             <i class="material-icons">pie_chart_outlined</i>
-                            <span class="nav-text">Mis viajes</span>
+                            <span class="nav-text">Solicitar viaje</span>
+
+                        </a>
+                    </li>
+                    <li class="bold">
+                        <a href="#">
+                            <i class="material-icons">pie_chart_outlined</i>
+                            <!-- <router-link class="nav-text"  to="/crear">Crear Viaje </router-link> -->
+
+                            <span class="nav-text">Crear Viaje</span>
+
 
                         </a>
                     </li>

@@ -27,7 +27,7 @@
                             </li>
                         </ul>
                         <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown-nav">{{auth()->user()->usuario}}<i class="mdi-navigation-arrow-drop-down right"></i></a>
-                        <p class="user-roal">Administrator</p>
+
                     </div>
                 </div>
             </li>
@@ -36,14 +36,21 @@
                     <li class="bold">
                         <a href="index.html" class="waves-effect waves-cyan">
                             <i class="material-icons">pie_chart_outlined</i>
-                            <span class="nav-text">Panel de administración</span>
+                            <span class="nav-text">Mis viajes</span>
 
                         </a>
                     </li>
                     <li class="bold">
                         <a href="index.html" class="waves-effect waves-cyan">
                             <i class="material-icons">pie_chart_outlined</i>
-                            <span class="nav-text">Mis viajes</span>
+                            <span class="nav-text">Solicitar viaje</span>
+
+                        </a>
+                    </li>
+                    <li class="bold">
+                        <a href="{{route('trip.create')}}" class="waves-effect waves-cyan">
+                            <i class="material-icons">pie_chart_outlined</i>
+                            <span class="nav-text">Crear Viaje</span>
 
                         </a>
                     </li>

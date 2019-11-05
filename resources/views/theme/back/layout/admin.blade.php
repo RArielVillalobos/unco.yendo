@@ -17,8 +17,8 @@
         <!-- End Page Loading -->
             <!-- //////////////////////////////////////////////////////////////////////////// -->
             <!-- START HEADER -->
-            {{--@include('theme.back.layout.includes.header') --}}
-            <cabeza></cabeza>
+            @include('theme.back.layout.includes.header')
+            {{-- cabeza></cabeza>--}}<
 
         <!-- END HEADER -->
             <!-- //////////////////////////////////////////////////////////////////////////// -->
@@ -28,8 +28,8 @@
                 <div class="wrapper">
                     <!-- START LEFT SIDEBAR NAV-->
                 @if(auth()->check())
-                    {{--@include('theme.back.layout.includes.left-sidebar') --}}
-                   <left-sidebar></left-sidebar>
+                    @include('theme.back.layout.includes.left-sidebar')
+                   {{-- <left-sidebar></left-sidebar>--}}
 
 
                 @endif
@@ -40,7 +40,8 @@
                         <!--start container-->
                         <div class="container">
                             @yield('content')
-                            <router-view></router-view>
+                            <!--<router-view></router-view>-->
+
 
 
 

@@ -1,12 +1,13 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+
 import CrearViajeComponent from './components/CrearViajeComponent.vue';
 import PublicarAnuncio from "./components/PublicarAnuncio";
 import SearchSong from "./components/SearchSong";
-Vue.use(Router);
+//Vue.use(Router);
 
 
-export default new Router({
+export default {
+    mode:'history',
     routes: [
         {
             path: '/crear',
@@ -25,8 +26,5 @@ export default new Router({
         }
 
     ],
-    mode: 'history',
-    scrollBehavior() {
-        return {x:0, y:0}
-    }
-})
+
+}
