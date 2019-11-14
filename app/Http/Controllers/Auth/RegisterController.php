@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Mail\UserCreated;
+use App\Traits\ApiResponser;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Mail\Mailable;
@@ -13,6 +14,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
+    use ApiResponser;
     /*
     |--------------------------------------------------------------------------
     | Register Controller
@@ -73,6 +75,8 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'apellido'=>$data['apellido'],
             'legajo'=>$data['legajo'],
+            'verification_token'=>User::generarVerificationToken(),
+            //'verified'=>0,
             'usuario'=>$data['usuario'],
             'activo'=>1,
             'password' => Hash::make($data['password']),
@@ -83,6 +87,8 @@ class RegisterController extends Controller
         //return $user;
 
     }
+
+
 
 
 }

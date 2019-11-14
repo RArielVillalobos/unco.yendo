@@ -6,7 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
 {
     use Notifiable;
 
@@ -16,7 +16,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'nombre', 'email', 'password','legajo','apellido','usuario','activo'
+        'nombre', 'email', 'password','legajo','apellido','usuario','activo','verification_token'
     ];
 
     /**
@@ -44,6 +44,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function trips(){
         return $this->hasMany(Trip::class);
+    }
+
+    //es estatico porque no es necesario instanciar la clase para acceder a el
+    public static function generarVerificationToken(){
+        return str_random(40);
     }
 
 

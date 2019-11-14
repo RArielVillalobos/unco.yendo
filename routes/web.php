@@ -17,7 +17,7 @@
 /*Route::get('/app',function(){
     return view('theme.back.layout.admin');
 });*/
-Auth::routes(['verify'=>true]);
+Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');
 
@@ -36,6 +36,9 @@ Route::post('store','MessageController@store')->name('mensaje.store');
 
 //peticiones
 Route::post('/peticion/store','RequestController@store')->name('peticion.store');
+
+//verificacion de token
+Route::get('verify/{token}','UserController@verify')->name('verify');
 
 
 
