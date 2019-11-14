@@ -92,7 +92,7 @@
                 return this.arrayMsjs;
             },
             crearViaje(){
-                axios.post('/trip/crear',
+                axios.post('/trip/store',
                     {
                         'fecha':this.fecha,
                         'calle':this.calle,

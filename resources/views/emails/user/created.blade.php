@@ -1,7 +1,7 @@
 @component('mail::message')
     # Hola {{$user->name}}
     Gracias por crear una cuenta, Por favor verifiquela haciendo click en el siguiente botón:
-    @component('mail::button', ['url' => route('users.verify',$user)])
+    @component('mail::button', ['url' => route('verification.verify',$user)])
         Confirmar mi cuenta
     @endcomponent
     Gracias,<br>

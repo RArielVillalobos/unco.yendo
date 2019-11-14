@@ -27,6 +27,7 @@ Vue.component('home', require('./components/Home').default);
 Vue.component('register', require('./components/Register').default);
 Vue.component('autocompleteaddress', require('./components/AutocompleteAddress.vue').default);
 Vue.component('searchsong', require('./components/SearchSong').default);
+Vue.component('solicitar-viaje',require('./components/SolicitarViaje.vue').default);
 
 
 import VueRouter from 'vue-router';
