@@ -3,7 +3,7 @@
          <form method="post" @submit.prevent>
              <div class="row mt-2">
                  <div class="input-field col s6 offset-s2">
-                     <autocompleteaddress></autocompleteaddress>
+                     <autocompleteaddress v-on:direccion="setDireccion"></autocompleteaddress>
                  </div>
              </div>
              <div class="row mt-2">
@@ -61,6 +61,7 @@
                 lugares_disponibles:'',
                 arrayMsjs:[],
                 error:0,
+                direccion:''
             }
         },
         methods:{
@@ -109,6 +110,9 @@
                 }).catch(function(error){
                     console.log(error);
                 })
+            },
+            setDireccion(direccion){
+                this.direccion=direccion;
             }
            
         }
