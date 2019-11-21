@@ -1878,6 +1878,8 @@ __webpack_require__.r(__webpack_exports__);
     */
     getAddressData: function getAddressData(addressData, placeResultData, id) {
       this.address = addressData;
+      this.$emit('direccion', this.address);
+      console.log(this.address);
     }
   }
 });
@@ -1955,7 +1957,8 @@ __webpack_require__.r(__webpack_exports__);
       hora: '',
       lugares_disponibles: '',
       arrayMsjs: [],
-      error: 0
+      error: 0,
+      direccion: ''
     };
   },
   methods: {
@@ -2008,6 +2011,9 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    setDireccion: function setDireccion(direccion) {
+      this.direccion = direccion;
     }
   }
 });
@@ -3643,7 +3649,9 @@ var render = function() {
           _c(
             "div",
             { staticClass: "input-field col s6 offset-s2" },
-            [_c("autocompleteaddress")],
+            [
+              _c("autocompleteaddress", { on: { direccion: _vm.setDireccion } })
+            ],
             1
           )
         ]),
@@ -20611,8 +20619,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\unco.yendo\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\unco.yendo\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /var/www/html/unco.yendo/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /var/www/html/unco.yendo/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

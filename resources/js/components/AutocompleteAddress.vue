@@ -38,6 +38,8 @@
             */
             getAddressData: function (addressData, placeResultData, id) {
                 this.address = addressData;
+                this.$emit('direccion',this.address);
+                console.log(this.address);
             }
         }
     }
