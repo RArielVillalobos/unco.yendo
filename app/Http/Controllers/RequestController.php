@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\RequestAccepted;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class RequestController extends Controller
 {
@@ -23,7 +25,9 @@ class RequestController extends Controller
     public function confirm($id){
         $request=\App\Request::findOrFail($id);
         $request->aceptado=1;
-        $request->save();
+        if($request->save()){
+            Mail::to($request->user->email)->send(new RequestAccepted($request));
+        }
         echo 'confirmado';
 
     }
