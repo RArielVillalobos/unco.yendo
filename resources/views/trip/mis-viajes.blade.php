@@ -1,18 +1,14 @@
 @extends('theme.back.layout.admin')
 
-@section('title','Viajes')
+@section('title','Mis viajes')
 
 @section('head')
 @endsection
-
-
-
-
 @section('content')
     <div class="container">
         <div class="row">
-        @forelse($viajes as $viaje)
-            @if($viaje->user_id!=auth()->user()->id)
+            @forelse($viajes as $viaje)
+
                     <div class="card-widgets">
 
                         <div class="col s12 m12 l4">
@@ -20,7 +16,7 @@
                                 <div class="card-header deep-orange accent-2">
                                     <div class="card-title">
                                         <h4 class="flight-card-title">Viaje</h4>
-                                        <a href="{{route('trip.show',$viaje->id)}}" class="btn waves-effect orange accent-3 right" type="submit" name="action">Ver
+                                        <a href="{{route('trip.info',$viaje->id)}}" class="btn waves-effect orange accent-3 right" type="submit" name="action">Ver
                                         </a>
                                         <p class="flight-card-date">{{$viaje->fecha}} Jue 07:50</p>
                                     </div>
@@ -71,12 +67,12 @@
                     </div>
 
 
-            @endif
 
-        @empty
+
+            @empty
                 <div class="card-panel red lighten-1">No hay viajes disponibles</div>
 
-        @endforelse
+            @endforelse
         </div>
 
 

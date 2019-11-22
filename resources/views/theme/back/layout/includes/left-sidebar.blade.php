@@ -34,7 +34,7 @@
             <li class="no-padding">
                 <ul class="collapsible" data-collapsible="accordion">
                     <li class="bold">
-                        <a href="#" class="waves-effect waves-cyan">
+                        <a href="{{route('trip.mis_viajes')}}" class="waves-effect waves-cyan">
                             <i class="material-icons">pie_chart_outlined</i>
                             <span class="nav-text">Mis viajes</span>
 

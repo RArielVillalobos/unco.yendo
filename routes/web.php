@@ -29,6 +29,9 @@ Route::post('/trip/store','TripController@store')->name('trip.store')->middlewar
 Route::get('solicitar-viaje','TripController@solicitar')->name('trip.solicitar')->middleware('auth');
 Route::get('viajes','TripController@viajes')->name('trip.viajes')->middleware('auth');
 Route::get('viaje-detalle/{trip}','TripController@show')->name('trip.show')->middleware('auth');
+//detalle del viaje para cada usuario suscrito
+Route::get('viaje-info/{trip}','TripController@info')->name('trip.info')->middleware('auth');
+Route::get('misviajes','TripController@misViajes')->name('trip.mis_viajes')->middleware('auth');
 //Route::get('trip/{id}','TripController@show')->name('')
 
 //mensajes

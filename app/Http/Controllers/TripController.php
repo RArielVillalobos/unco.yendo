@@ -42,4 +42,17 @@ class TripController extends Controller
 
         return view('trip.show',['viaje'=>$trip]);
     }
+    public function info(Trip $trip){
+
+        return view('trip.info',['viaje'=>$trip]);
+    }
+
+    public function misViajes(){
+        $viajes=auth()->user()->viajes;
+
+        return view('trip.mis-viajes',['viajes'=>$viajes]);
+
+
+
+    }
 }

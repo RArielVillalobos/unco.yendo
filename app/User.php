@@ -54,6 +54,11 @@ class User extends Authenticatable
         return str_random(40);
     }
 
+    //viajes a los que esta inscrito un usuario
+    public function viajes(){
+        return $this->hasMany(Traveler::class);
+    }
+
 
 
 }
