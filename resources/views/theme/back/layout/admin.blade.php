@@ -42,9 +42,6 @@
                             @yield('content')
                             <!--<router-view></router-view>-->
 
-
-
-
                         </div>
                         <!--end container-->
                     </section>

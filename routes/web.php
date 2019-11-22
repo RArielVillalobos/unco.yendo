@@ -29,6 +29,7 @@ Route::post('/trip/store','TripController@store')->name('trip.store')->middlewar
 Route::get('solicitar-viaje','TripController@solicitar')->name('trip.solicitar')->middleware('auth');
 Route::get('viajes','TripController@viajes')->name('trip.viajes')->middleware('auth');
 Route::get('viaje-detalle/{trip}','TripController@show')->name('trip.show')->middleware('auth');
+//Route::get('trip/{id}','TripController@show')->name('')
 
 //mensajes
 Route::post('store','MessageController@store')->name('mensaje.store');

@@ -29,7 +29,7 @@
 
 
                      </select>
-                     <label>Auto</label>
+
 
                  </div>
 
@@ -38,7 +38,7 @@
              <div class="row mt-2">
                  <div class="input-field col s6 offset-s2">
                      <i class="material-icons prefix">directions_car</i>
-                     <input id="lugares_disponibles" v-model="lugares_disponibles" type="number" class="validate" name="lugares_disponibles" autocomplete="lugares_disponibles" required>
+                     <input id="lugares_disponibles" v-model="lugares_disponibles" max="4" type="number" class="validate" name="lugares_disponibles" autocomplete="lugares_disponibles" required>
                      <label for="lugares_disponibles">Lugares Disponibles</label>
                  </div>
              </div>

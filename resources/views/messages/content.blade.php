@@ -42,6 +42,7 @@
 
 
     <form action="{{route('mensaje.store')}}" method="post">
+        <input type="hidden" name="trip_id" value="{{$viaje->id}}">
         @if($viaje->conversation!=null)
             <input type="hidden" name="conversation_id" value="{{$viaje->conversation->id}}">
          @endif

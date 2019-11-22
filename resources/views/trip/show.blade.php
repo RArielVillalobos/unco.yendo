@@ -80,7 +80,7 @@
                                 <form method="post" action="{{route('peticion.store')}}">
                                     @csrf
                                     <input type="hidden" name="trip_id" value="{{$viaje->id}}">
-                                    <button class="btn waves-effect orange accent-3 right" type="submit">Llevame</button>
+                                    <button onclick="return confirm('Estas seguro que desea enviarle la petición de viaje?')" class="btn waves-effect orange accent-3 right" type="submit">Llevame</button>
 
                                 </form>
                             @endif

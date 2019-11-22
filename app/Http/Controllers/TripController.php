@@ -20,6 +20,8 @@ class TripController extends Controller
             'hora'=>$request->hora,
             'user_id'=>auth()->user()->id,
             'numero'=>$request->numero,
+            'latitud'=>$request->latitud,
+            'longitud'=>$request->longitud,
             'lugares_disponibles'=>$request->lugares_disponibles
         ]);
 

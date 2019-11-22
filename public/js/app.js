@@ -3774,9 +3774,7 @@ var render = function() {
                 })
               ],
               2
-            ),
-            _vm._v(" "),
-            _c("label", [_vm._v("Auto")])
+            )
           ])
         ]),
         _vm._v(" "),
@@ -3798,6 +3796,7 @@ var render = function() {
               staticClass: "validate",
               attrs: {
                 id: "lugares_disponibles",
+                max: "4",
                 type: "number",
                 name: "lugares_disponibles",
                 autocomplete: "lugares_disponibles",
