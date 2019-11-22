@@ -25,7 +25,7 @@ Route::get('/','HomeController@index');
 
 //viaje
 Route::get('crear','TripController@create')->name('trip.create')->middleware('auth');
-Route::post('store','TripController@store')->name('trip.store')->middleware('auth');
+Route::post('/trip/store','TripController@store')->name('trip.store')->middleware('auth');
 Route::get('solicitar-viaje','TripController@solicitar')->name('trip.solicitar')->middleware('auth');
 Route::get('viajes','TripController@viajes')->name('trip.viajes')->middleware('auth');
 Route::get('viaje-detalle/{trip}','TripController@show')->name('trip.show')->middleware('auth');
@@ -39,6 +39,10 @@ Route::post('/peticion/store','RequestController@store')->name('peticion.store')
 
 //verificacion de token
 Route::get('verify/{token}','UserController@verify')->name('verify');
+
+
+//autos relacionados a un usuario
+Route::get('cars/{id}','CarController@index')->name('cars.index');
 
 
 

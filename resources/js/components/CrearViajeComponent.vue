@@ -12,19 +12,28 @@
                      <input v-model="fecha"  id="fecha" type="date" class="validate" required>
                  </div>
              </div>
-             <div class="row mt-2">
-                 <div class="input-field col s6 offset-s2">
-                     <i class="material-icons prefix">looks_two</i>
-                     <input id="numero" type="number" class="validate" v-model="numero" autocomplete="numero" required>
-                     <label for="numero">Numero</label>
-                 </div>
-             </div>
+
 
              <div class="row mt-2">
                  <div class="input-field col s6 offset-s2">
                      <i class="material-icons prefix">timelapse</i>
                      <input  id="hora" v-model="hora" type="time" class="validate" required>
                  </div>
+             </div>
+             <div class="row mt-2">
+                 <div class="col s6 offset-s2">
+                     <select class="browser-default">
+                         <i class="material-icons prefix">directions_car</i>
+                         <option value="" disabled selected>Seleccione Auto</option>
+                         <option v-for="car in cars" value="1">{{car.marca.toUpperCase()}}-{{car.modelo.toUpperCase()}}</option>
+
+
+                     </select>
+                     <label>Auto</label>
+
+                 </div>
+
+
              </div>
              <div class="row mt-2">
                  <div class="input-field col s6 offset-s2">
@@ -52,6 +61,10 @@
 
     export default {
         name: "CrearViaje",
+        props:{
+            usuario:Object
+        },
+
         data(){
             return {
                 fecha:'',
@@ -61,9 +74,34 @@
                 lugares_disponibles:'',
                 arrayMsjs:[],
                 error:0,
-                direccion:''
+                direccion:'',
+                cars:[],
+                user:''
             }
         },
+
+        created(){
+
+            axios.get('cars/'+this.usuario.id)
+                .then(response => {
+
+                    if(response.data){
+                        this.cars=response.data
+
+                    }
+
+
+                })
+                //si no existe o hubo algún error
+                .catch(e => {
+
+                });
+
+
+
+
+        },
+
         methods:{
             validarFormularioViaje(){
                 if(this.calle===''){
@@ -96,9 +134,12 @@
                 axios.post('/trip/store',
                     {
                         'fecha':this.fecha,
-                        'calle':this.calle,
-                        'numero':this.numero,
+                        'calle':this.direccion.route,
+                        'numero':this.direccion.street_number,
                         'hora': this.hora,
+                        'latitud':this.direccion.latitude,
+                        'longitud':this.direccion.longitude,
+                        'ciudad':this.locality,
                         'lugares_disponibles':this.lugares_disponibles,
                     }).then(function(){
                     Swal.fire({
@@ -106,7 +147,12 @@
                         text: 'Acabas de generar un viaje,felicitaciones',
                         type: 'success',
                         confirmButtonText: 'Continuar'
+                    }).then((result)=>{
+                        if(result.value){
+                            window.location.href = '/';
+                        }
                     })
+
                 }).catch(function(error){
                     console.log(error);
                 })
@@ -119,6 +165,7 @@
     }
 
 </script>
+
 
 <style scoped>
 

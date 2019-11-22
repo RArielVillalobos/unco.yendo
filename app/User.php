@@ -45,6 +45,9 @@ class User extends Authenticatable
     public function trips(){
         return $this->hasMany(Trip::class);
     }
+    public function cars(){
+        return $this->hasMany(Car::class);
+    }
 
     //es estatico porque no es necesario instanciar la clase para acceder a el
     public static function generarVerificationToken(){

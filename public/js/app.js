@@ -1946,9 +1946,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CrearViaje",
+  props: {
+    usuario: Object
+  },
   data: function data() {
     return {
       fecha: '',
@@ -1958,8 +1970,20 @@ __webpack_require__.r(__webpack_exports__);
       lugares_disponibles: '',
       arrayMsjs: [],
       error: 0,
-      direccion: ''
+      direccion: '',
+      cars: [],
+      user: ''
     };
+  },
+  created: function created() {
+    var _this = this;
+
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('cars/' + this.usuario.id).then(function (response) {
+      if (response.data) {
+        _this.cars = response.data;
+      }
+    }) //si no existe o hubo algún error
+    ["catch"](function (e) {});
   },
   methods: {
     validarFormularioViaje: function validarFormularioViaje() {
@@ -1997,9 +2021,12 @@ __webpack_require__.r(__webpack_exports__);
     crearViaje: function crearViaje() {
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/trip/store', {
         'fecha': this.fecha,
-        'calle': this.calle,
-        'numero': this.numero,
+        'calle': this.direccion.route,
+        'numero': this.direccion.street_number,
         'hora': this.hora,
+        'latitud': this.direccion.latitude,
+        'longitud': this.direccion.longitude,
+        'ciudad': this.locality,
         'lugares_disponibles': this.lugares_disponibles
       }).then(function () {
         Swal.fire({
@@ -2007,6 +2034,10 @@ __webpack_require__.r(__webpack_exports__);
           text: 'Acabas de generar un viaje,felicitaciones',
           type: 'success',
           confirmButtonText: 'Continuar'
+        }).then(function (result) {
+          if (result.value) {
+            window.location.href = '/';
+          }
         });
       })["catch"](function (error) {
         console.log(error);
@@ -3689,43 +3720,6 @@ var render = function() {
         _c("div", { staticClass: "row mt-2" }, [
           _c("div", { staticClass: "input-field col s6 offset-s2" }, [
             _c("i", { staticClass: "material-icons prefix" }, [
-              _vm._v("looks_two")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.numero,
-                  expression: "numero"
-                }
-              ],
-              staticClass: "validate",
-              attrs: {
-                id: "numero",
-                type: "number",
-                autocomplete: "numero",
-                required: ""
-              },
-              domProps: { value: _vm.numero },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.numero = $event.target.value
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("label", { attrs: { for: "numero" } }, [_vm._v("Numero")])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row mt-2" }, [
-          _c("div", { staticClass: "input-field col s6 offset-s2" }, [
-            _c("i", { staticClass: "material-icons prefix" }, [
               _vm._v("timelapse")
             ]),
             _vm._v(" "),
@@ -3750,6 +3744,39 @@ var render = function() {
                 }
               }
             })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row mt-2" }, [
+          _c("div", { staticClass: "col s6 offset-s2" }, [
+            _c(
+              "select",
+              { staticClass: "browser-default" },
+              [
+                _c("i", { staticClass: "material-icons prefix" }, [
+                  _vm._v("directions_car")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "option",
+                  { attrs: { value: "", disabled: "", selected: "" } },
+                  [_vm._v("Seleccione Auto")]
+                ),
+                _vm._v(" "),
+                _vm._l(_vm.cars, function(car) {
+                  return _c("option", { attrs: { value: "1" } }, [
+                    _vm._v(
+                      _vm._s(car.marca.toUpperCase()) +
+                        "-" +
+                        _vm._s(car.modelo.toUpperCase())
+                    )
+                  ])
+                })
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c("label", [_vm._v("Auto")])
           ])
         ]),
         _vm._v(" "),
