@@ -19,4 +19,12 @@ class RequestController extends Controller
         return back()->with("mensaje", 'Se envio la petición correctamente!');
 
     }
+
+    public function confirm($id){
+        $request=\App\Request::findOrFail($id);
+        $request->aceptado=1;
+        $request->save();
+        echo 'confirmado';
+
+    }
 }

@@ -37,6 +37,7 @@ Route::post('store','MessageController@store')->name('mensaje.store');
 
 //peticiones
 Route::post('/peticion/store','RequestController@store')->name('peticion.store');
+Route::get('peticion/{id}/confirmar','RequestController@confirm')->name('peticion.confirm');
 
 //verificacion de token
 Route::get('verify/{token}','UserController@verify')->name('verify');
