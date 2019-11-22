@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\RequestAccepted;
+use App\Traveler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -27,6 +28,10 @@ class RequestController extends Controller
         $request->aceptado=1;
         if($request->save()){
             Mail::to($request->user->email)->send(new RequestAccepted($request));
+            Traveler::create([
+                'trip_id'=>$request->trip->id,
+                'user_id'=>$request->user->id
+            ]);
         }
         echo 'confirmado';
 

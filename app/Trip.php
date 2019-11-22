@@ -24,4 +24,8 @@ class Trip extends Model
         return $this->hasMany(Request::class);
     }
 
+    public function travelers(){
+        return $this->hasMany(Traveler::class);
+    }
+
 }
