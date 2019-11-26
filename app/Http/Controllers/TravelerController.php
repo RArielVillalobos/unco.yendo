@@ -23,4 +23,14 @@ class TravelerController extends Controller
         return 'checking realizado correctamente';
 
     }
+
+    public function arriba($id){
+
+        $traveler=Traveler::findOrFail($id);
+        $traveler->estado=Traveler::ARRIBA;
+        if($traveler->save()){
+            return 'ok';
+        }
+
+    }
 }

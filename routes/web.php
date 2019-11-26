@@ -51,6 +51,7 @@ Route::get('cars/{id}','CarController@index')->name('cars.index');
 
 //confirmacion viaje
 Route::post('confirmar','TravelerController@confirmarViaje')->name('confirmar');
-
+//arriba del auto
+Route::get('arriba/{id}','TravelerController@arriba')->name('confirmar.arriba');
 
 

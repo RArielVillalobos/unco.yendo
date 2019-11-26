@@ -29,6 +29,7 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
 
         $schedule->command('NoConfirmChecking')->everyMinute();
+        $schedule->command('arriba')->everyMinute();
     }
 
     /**

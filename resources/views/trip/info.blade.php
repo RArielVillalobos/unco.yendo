@@ -73,15 +73,23 @@
                                        <p>Checking Realizado</p>
                                 @endif
 
-                                @if($diferencia>60 && $horaActual->toDateString()==$viaje->fecha)
+                                @if($diferencia>60 && $horaActual->toDateString()==$viaje->fecha && $traveler->estado==\App\Traveler::PENDIENTE)
                                     <form action="{{route('confirmar')}}" method="post">
                                         @csrf
                                         <input name="traveler_id" value="{{$traveler->id}}">
                                         <button onclick="return confirm('Esta seguro que desea hacer ckecking?')" class="waves-effect waves-light btn">Confirmar viaje</button>
                                     </form>
 
-                                @else
-                                    <p>No confirmaste a tiempo</p>
+
+                                @endif
+
+                                @if($traveler->checking!=null && $traveler->estado!=\App\Traveler::ARRIBA)
+                                    <form method="post" action="{{route('arriba')}}">
+                                        @csrf
+                                        <input type="hidden" name="traveler_id" value="{{$traveler->id}}">
+                                        <button class="waves-effect waves-light btn" type="submit">Ya me subí al vehiculo</button>
+                                    </form>
+
                                 @endif
 
                             </div>

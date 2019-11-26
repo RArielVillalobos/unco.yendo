@@ -15,6 +15,7 @@ class Traveler extends Model
     const BAJA='baja';
     //cuando se dan de baja
     const CANCELADO='cancelado';
+    const ARRIBA='arriba';
     protected $fillable=['trip_id','user_id','me_subi','checking_id'];
 
     public function trip(){
@@ -23,6 +24,10 @@ class Traveler extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function checking(){
+        return $this->belongsTo(Checking::class);
     }
 
 }
