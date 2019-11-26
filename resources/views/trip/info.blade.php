@@ -52,10 +52,38 @@
                                 <div class="col s6 m6 l6 center-align flight-state-two">
                                     <div class="flight-info">
                                         <p class="small">
-                                            <span class="grey-text text-lighten-4">Llegada:</span> 08.50</p>
+                                            @php
+                                             $horaActual=\Carbon\Carbon::now();
+                                                echo 'actual'. $horaActual;
+                                                echo '<br>';
+                                                $diferencia= $horaActual->diffInMinutes($viaje->hora);
+                                                echo $diferencia;
+                                            @endphp
+                                            <span class="grey-text text-lighten-4">Hora:</span>{{$viaje->hora}}</p>
 
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <br>
+                                @php
+                                   $traveler= auth()->user()->viajes->firstWhere('trip_id','=',$viaje->id);
+                                @endphp
+                                @if($traveler->checking_id!=null)
+                                       <p>Checking Realizado</p>
+                                @endif
+
+                                @if($diferencia>60 && $horaActual->toDateString()==$viaje->fecha)
+                                    <form action="{{route('confirmar')}}" method="post">
+                                        @csrf
+                                        <input name="traveler_id" value="{{$traveler->id}}">
+                                        <button onclick="return confirm('Esta seguro que desea hacer ckecking?')" class="waves-effect waves-light btn">Confirmar viaje</button>
+                                    </form>
+
+                                @else
+                                    <p>No confirmaste a tiempo</p>
+                                @endif
+
                             </div>
                         </div>
 

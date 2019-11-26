@@ -19,8 +19,14 @@ class CreateTravelersTable extends Migration
             $table->foreign('trip_id')->references('id')->on('trips');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('checking_id')->nullable();
+            $table->foreign('checking_id')->references('id')->on('checkings');
             //si se subio al auto se pone en true
             $table->boolean('me_subi')->default(false);
+            //el estado del viaje
+            //confirmado,pendiente,baja,cancelado
+            $table->string('estado')->default('pendiente');
+
             $table->timestamps();
         });
     }

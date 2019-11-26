@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCheckingsTable extends Migration
+class CreateTasksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateCheckingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('checkings', function (Blueprint $table) {
+        Schema::create('tasks', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('trip_id');
-            $table->foreign('trip_id')->references('id')->on('trips');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('nombre_tarea');
+            $table->boolean('estado')->default(false);
 
             $table->timestamps();
         });
@@ -31,6 +29,6 @@ class CreateCheckingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('checkings');
+        Schema::dropIfExists('tasks');
     }
 }

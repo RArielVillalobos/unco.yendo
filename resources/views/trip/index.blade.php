@@ -22,7 +22,7 @@
                                         <h4 class="flight-card-title">Viaje</h4>
                                         <a href="{{route('trip.show',$viaje->id)}}" class="btn waves-effect orange accent-3 right" type="submit" name="action">Ver
                                         </a>
-                                        <p class="flight-card-date">{{$viaje->fecha}} Jue 07:50</p>
+                                        <p class="flight-card-date">{{$viaje->fecha}} {{$viaje->hora}}</p>
                                     </div>
                                 </div>
                                 <div class="card-content-bg white-text">
@@ -56,7 +56,7 @@
                                             <div class="col s6 m6 l6 center-align flight-state-two">
                                                 <div class="flight-info">
                                                     <p class="small">
-                                                        <span class="grey-text text-lighten-4">Llegada:</span> 08.50</p>
+                                                        <span class="grey-text text-lighten-4">Llegada:</span> Indefinido</p>
 
                                                 </div>
                                             </div>

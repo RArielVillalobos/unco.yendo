@@ -49,5 +49,8 @@ Route::get('verify/{token}','UserController@verify')->name('verify');
 //autos relacionados a un usuario
 Route::get('cars/{id}','CarController@index')->name('cars.index');
 
+//confirmacion viaje
+Route::post('confirmar','TravelerController@confirmarViaje')->name('confirmar');
+
 
 
