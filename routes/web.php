@@ -25,6 +25,7 @@ Route::get('/','HomeController@index');
 
 //viaje
 Route::get('crear','TripController@create')->name('trip.create')->middleware('auth');
+Route::get('publicar','TripController@publicar')->name('trip.publicar')->middleware('auth');
 Route::post('/trip/store','TripController@store')->name('trip.store')->middleware('auth');
 Route::get('solicitar-viaje','TripController@solicitar')->name('trip.solicitar')->middleware('auth');
 Route::get('viajes','TripController@viajes')->name('trip.viajes')->middleware('auth');
@@ -53,5 +54,9 @@ Route::get('cars/{id}','CarController@index')->name('cars.index');
 Route::post('confirmar','TravelerController@confirmarViaje')->name('confirmar');
 //arriba del auto
 Route::get('arriba/{id}','TravelerController@arriba')->name('confirmar.arriba');
+
+//ranking
+Route::get('ranking','ScoreController@ranking')->name('trip.ranking')->middleware('auth');
+
 
 

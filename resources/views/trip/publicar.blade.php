@@ -8,9 +8,9 @@
 @endsection
 
 @section('content')
-    <crear-viaje :usuario="{{ json_encode(auth()->user()) }}">
+    <publicar :usuario="{{ json_encode(auth()->user()) }}">
 
-    </crear-viaje>
+    </publicar>
 
 
 @endsection

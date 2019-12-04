@@ -49,10 +49,10 @@ class TripController extends Controller
 
     public function misViajes(){
         $viajes=auth()->user()->viajes;
-
         return view('trip.mis-viajes',['viajes'=>$viajes]);
+    }
 
-
-
+    public function publicar(){
+        return view('trip.publicar');
     }
 }

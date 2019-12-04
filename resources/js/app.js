@@ -20,6 +20,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('crear-viaje', require('./components/CrearViajeComponent.vue').default);
+Vue.component('publicar', require('./components/PublicarAnuncio.vue').default);
 Vue.component('cabeza', require('./layouts/Cabeza.vue').default);
 Vue.component('left-sidebar', require('./layouts/LeftSideBar').default);
 Vue.component('viaje', require('./components/Viaje').default);
