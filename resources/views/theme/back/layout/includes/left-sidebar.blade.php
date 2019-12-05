@@ -54,6 +54,20 @@
 
                         </a>
                     </li>
+                    <li class="bold">
+                        <a href="{{route('trip.publicar')}}" class="waves-effect waves-cyan">
+                            <i class="material-icons">pie_chart_outlined</i>
+                            <span class="nav-text">Publicar viaje</span>
+
+                        </a>
+                    </li>
+                    <li class="bold">
+                        <a href="{{route('trip.ranking')}}" class="waves-effect waves-cyan">
+                            <i class="material-icons">pie_chart_outlined</i>
+                            <span class="nav-text">Ranking de Usuarios</span>
+
+                        </a>
+                    </li>
                 </ul>
             </li>
         </ul>

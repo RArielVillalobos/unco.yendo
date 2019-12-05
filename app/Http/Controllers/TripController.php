@@ -55,4 +55,7 @@ class TripController extends Controller
 
 
     }
+    public function publicar(){
+        return view('trip.publicar');
+    }
 }
