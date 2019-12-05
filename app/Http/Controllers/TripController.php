@@ -34,9 +34,9 @@ class TripController extends Controller
 
     public function viajes(Request $request){
         $viajes=Trip::where('fecha','=',$request->fecha)->get();
-
         return view('trip.index',['viajes'=>$viajes]);
     }
+    
 
     public function show(Trip $trip){
 
@@ -49,12 +49,14 @@ class TripController extends Controller
 
     public function misViajes(){
         $viajes=auth()->user()->viajes;
-
         return view('trip.mis-viajes',['viajes'=>$viajes]);
-
-
-
     }
+
+    public function misViajesParticipado(){
+        $viajes=auth()->user()->viajes;
+        return view('trip.mis-viajes-participado',['viajes'=>$viajes]);
+    }
+
     public function publicar(){
         return view('trip.publicar');
     }

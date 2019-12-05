@@ -36,7 +36,14 @@
                     <li class="bold">
                         <a href="{{route('trip.mis_viajes')}}" class="waves-effect waves-cyan">
                             <i class="material-icons">pie_chart_outlined</i>
-                            <span class="nav-text">Mis viajes</span>
+                            <span class="nav-text">Mis viajes creados</span>
+
+                        </a>
+                    </li>
+                    <li class="bold">
+                        <a href="{{route('trip.mis_viajes_participado')}}" class="waves-effect waves-cyan">
+                            <i class="material-icons">pie_chart_outlined</i>
+                            <span class="nav-text">Mis Viajes participados</span>
 
                         </a>
                     </li>
