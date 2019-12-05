@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Checking;
 use App\Traveler;
+use App\Trip;
 use Illuminate\Http\Request;
 
 class TravelerController extends Controller
@@ -30,6 +31,18 @@ class TravelerController extends Controller
         $traveler->estado=Traveler::ARRIBA;
         if($traveler->save()){
             return 'ok';
+        }
+
+    }
+
+    public function terminar($id){
+        $viaje=Trip::findOrFail($id);
+        $viaje->estado=Trip::FINALIZAFO;
+        if($viaje->save()){
+            return back();
+        }
+        else{
+            return 'error';
         }
 
     }

@@ -53,5 +53,9 @@ Route::get('cars/{id}','CarController@index')->name('cars.index');
 Route::post('confirmar','TravelerController@confirmarViaje')->name('confirmar');
 //arriba del auto
 Route::get('arriba/{id}','TravelerController@arriba')->name('confirmar.arriba');
+Route::get('finalizo/{id}','TravelerController@terminar')->name('terminar');
+
+//puntuacion
+Route::post('puntuar','ScoreController@store')->name('puntuar');
 
 

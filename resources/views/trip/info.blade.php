@@ -84,7 +84,7 @@
                                 @endif
 
                                 @if($traveler->checking!=null && $traveler->estado!=\App\Traveler::ARRIBA)
-                                    <form method="post" action="{{route('arriba')}}">
+                                    <form method="get" action="{{route('confirmar.arriba',$traveler->id)}}">
                                         @csrf
                                         <input type="hidden" name="traveler_id" value="{{$traveler->id}}">
                                         <button class="waves-effect waves-light btn" type="submit">Ya me subí al vehiculo</button>

@@ -22,7 +22,7 @@
              </div>
              <div class="row mt-2">
                  <div class="col s6 offset-s2">
-                     <select class="browser-default">
+                     <select>
                          <i class="material-icons prefix">directions_car</i>
                          <option value="" disabled selected>Seleccione Auto</option>
                          <option v-for="car in cars" value="1">{{car.marca.toUpperCase()}}-{{car.modelo.toUpperCase()}}</option>
@@ -80,7 +80,7 @@
             }
         },
 
-        created(){
+        mounted(){
 
             axios.get('cars/'+this.usuario.id)
                 .then(response => {

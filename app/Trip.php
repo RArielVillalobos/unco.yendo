@@ -8,8 +8,13 @@ class Trip extends Model
 {
     //
     protected $fillable=['calle','fecha','hora','lugares_disponibles','numero','user_id','latitud','longitud','ciudad'];
+    const FINALIZAFO='finalizado';
+    const PROCESO='proceso';
+    public function apuntadosViaje(){
+        $total=$this->travelers->count();
 
-
+        return $total;
+    }
 
 
     public function conversation(){

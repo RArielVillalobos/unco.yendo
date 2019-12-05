@@ -29,6 +29,7 @@ class CreateTripsTable extends Migration
             $table->integer('lugares_disponibles');
             $table->string('latitud')->nullable();
             $table->string('longitud')->nullable();
+            $table->string('estado')->default('proceso');
             $table->timestamps();
         });
     }

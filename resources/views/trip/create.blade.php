@@ -14,3 +14,14 @@
 
 
 @endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        setTimeout(function(){
+            $('select').material_select();
+        },2000);
+
+    });
+</script>
+@endsection

@@ -1975,7 +1975,7 @@ __webpack_require__.r(__webpack_exports__);
       user: ''
     };
   },
-  created: function created() {
+  mounted: function mounted() {
     var _this = this;
 
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('cars/' + this.usuario.id).then(function (response) {
@@ -3751,7 +3751,6 @@ var render = function() {
           _c("div", { staticClass: "col s6 offset-s2" }, [
             _c(
               "select",
-              { staticClass: "browser-default" },
               [
                 _c("i", { staticClass: "material-icons prefix" }, [
                   _vm._v("directions_car")

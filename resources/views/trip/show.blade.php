@@ -46,7 +46,7 @@
                                         <p class="small" style="font-size: 0.8rem !important">
                                             <span class="grey-text text-lighten-4">Barrio:</span>{{$viaje->barrio}}</p>
                                         <p class="small"  style="font-size: 0.8rem !important">
-                                            <span class="grey-text text-lighten-4">Disponibilidad:</span> 3/4</p>
+                                            <span class="grey-text text-lighten-4">Disponibilidad:</span> {{$viaje->apuntadosViaje()}}/4</p>
                                     </div>
                                 </div>
                                 <div class="col s6 m6 l6 center-align flight-state-two">
@@ -57,6 +57,41 @@
                                     </div>
                                 </div>
                             </div>
+
+                            {{-- PUNTUAR USUARIOS--}}
+                            @if($viaje->estado==\App\Trip::FINALIZAFO)
+                                <div class="row">
+                                    @foreach($viaje->travelers as $viajante)
+                                        <div class="col s12 m12">
+                                            <div class="card horizontal">
+                                                <div class="card-image" style="width: 20%">
+                                                    <img src="/images/avatar/avatar-7.png" alt="" class="circle responsive-img valign profile-image cyan">
+                                                </div>
+                                                <div class="card-stacked">
+                                                    <p>{{$viajante->user->apellido }} {{$viajante->user->nombre}}</p>
+                                                    <div class="card-action">
+                                                        <a href="#modal1" class="waves-effect waves-light btn modal-trigger">Puntuar</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    @endforeach
+
+                                </div>
+                                <div id="modal1" class="modal">
+                                    <div class="modal-content">
+                                        @include('puntuacion.content',['viaje'=>$viaje,'user_to'=>$viajante->user->id])
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+                                    </div>
+                                </div>
+
+                            @endif
                         </div>
                         @php
                         $envio=false;
@@ -77,17 +112,34 @@
                             @if($envio)
                                 <p>Ya enviaste una peticón a este viaje, aguarda la respuesta</p>
                             @else
-                                <form method="post" action="{{route('peticion.store')}}">
-                                    @csrf
-                                    <input type="hidden" name="trip_id" value="{{$viaje->id}}">
-                                    <button onclick="return confirm('Estas seguro que desea enviarle la petición de viaje?')" class="btn waves-effect orange accent-3 right" type="submit">Llevame</button>
+                                @if($viaje->user->id!=auth()->user()->id)
+                                    <form method="post" action="{{route('peticion.store')}}">
+                                        @csrf
+                                        <input type="hidden" name="trip_id" value="{{$viaje->id}}">
+                                        <button onclick="return confirm('Estas seguro que desea enviarle la petición de viaje?')" class="btn waves-effect orange accent-3 right" type="submit">Llevame</button>
 
-                                </form>
+                                    </form>
+                                @endif
+
+                                @if($viaje->user->id==auth()->user()->id && $viaje->estado==\App\Trip::PROCESO)
+                                        <form method="get" action="{{route('terminar',$viaje->id)}}">
+                                            @csrf
+                                            <input type="hidden" name="trip_id" value="{{$viaje->id}}">
+                                            <button onclick="return confirm('Estas seguro de realizar la acción?')" class="btn waves-effect orange accent-3 right" type="submit">Finalizó el viaje</button>
+
+                                        </form>
+
+
+                                @endif
+
                             @endif
 
                             <br>
                             <br>
-                            <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Enviar Mensaje</a>
+                            @if($viaje->user->id!=auth()->user()->id)
+
+                                <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Enviar Mensaje</a>
+                            @endif
                         </div>
                     </div>
                 </div>
