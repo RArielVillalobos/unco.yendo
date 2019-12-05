@@ -62,21 +62,21 @@
                             @if($viaje->estado==\App\Trip::FINALIZAFO)
                                 <div class="row">
                                     @foreach($viaje->travelers as $viajante)
-                                        <div class="col s12 m12">
-                                            <div class="card horizontal">
-                                                <div class="card-image" style="width: 20%">
-                                                    <img src="/images/avatar/avatar-7.png" alt="" class="circle responsive-img valign profile-image cyan">
-                                                </div>
-                                                <div class="card-stacked">
-                                                    <p>{{$viajante->user->apellido }} {{$viajante->user->nombre}}</p>
-                                                    <div class="card-action">
-                                                        <a href="#modal1" class="waves-effect waves-light btn modal-trigger">Puntuar</a>
+                                        @if($viajante->yaMePuntuo()==null)
+                                            <div class="col s12 m12">
+                                                <div class="card horizontal">
+                                                    <div class="card-image" style="width: 20%">
+                                                        <img src="/images/avatar/avatar-7.png" alt="" class="circle responsive-img valign profile-image cyan">
+                                                    </div>
+                                                    <div class="card-stacked">
+                                                        <p>{{$viajante->user->apellido }} {{$viajante->user->nombre}}</p>
+                                                        <div class="card-action">
+                                                            <a href="#modal1" class="waves-effect waves-light btn modal-trigger">Puntuar</a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-
-
+                                        @endif
 
                                     @endforeach
 

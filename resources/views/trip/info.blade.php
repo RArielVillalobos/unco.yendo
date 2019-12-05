@@ -63,6 +63,40 @@
 
                                     </div>
                                 </div>
+                                {{-- PUNTUAR USUARIOS--}}
+                                @if($viaje->estado==\App\Trip::FINALIZAFO)
+                                    <div class="row">
+
+
+
+                                                <div class="col s12 m12">
+                                                    <div class="card horizontal">
+                                                        <div class="card-image" style="width: 20%">
+                                                            <img src="/images/avatar/avatar-7.png" alt="" class="circle responsive-img valign profile-image cyan">
+                                                        </div>
+                                                        <div class="card-stacked">
+                                                            <p>{{$viaje->user->apellido }} {{$viaje->user->nombre}}</p>
+                                                            <div class="card-action">
+                                                                <a href="#modal1" class="waves-effect waves-light btn modal-trigger">Puntuar</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                    </div>
+                                    <div id="modal1" class="modal">
+                                        <div class="modal-content">
+                                            @include('puntuacion.content',['viaje'=>$viaje,'user_to'=>$viaje->user->id])
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+                                        </div>
+                                    </div>
+
+                                @endif
                             </div>
                             <div class="row">
                                 <br>

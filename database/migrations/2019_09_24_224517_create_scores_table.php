@@ -23,7 +23,7 @@ class CreateScoresTable extends Migration
 
             $table->unsignedBigInteger('trip_id');
             $table->foreign('trip_id')->references('id')->on('trips');
-            $table->integer('votos');
+            //$table->integer('votos');
             $table->text('comentario');
 
 

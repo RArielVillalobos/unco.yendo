@@ -1,17 +1,18 @@
 <div class="container">
-    <form method="post">
+    <form method="post" action="/puntuar">
         @csrf
-        <input value="{{$user_to}}" name="user_to">
-        {{$user_to}}
+        <input type="hidden" value="{{$user_to}}" name="user_to">
+        <input type="hidden" name="trip_id" value="{{$viaje->id}}">
+
         <div class="row">
             <div class="input-field col s12">
-                <textarea id="textarea1" class="materialize-textarea"></textarea>
+                <textarea id="textarea1" name="comentario" class="materialize-textarea" required></textarea>
                 <label for="textarea1">Breve descripción del usuario a puntuar</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s12">
-                <select>
+                <select name="puntaje" required>
                     <option value="" disabled selected>Puntaje</option>
                     <option value="1">1</option>
                     <option value="2">2</option>

@@ -30,4 +30,9 @@ class Traveler extends Model
         return $this->belongsTo(Checking::class);
     }
 
+    public function yaMePuntuo(){
+        $score=Score::where('user_to_id',$this->user->id)->where('user_from_id',$this->trip->user->id)->where('trip_id',$this->trip->id)->first();
+        return $score;
+    }
+
 }
