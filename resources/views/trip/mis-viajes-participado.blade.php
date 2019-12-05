@@ -1,6 +1,6 @@
 @extends('theme.back.layout.admin')
 
-@section('title','Mis viajes')
+@section('title','Mis viajes que Participe')
 
 @section('head')
 @endsection
@@ -21,7 +21,7 @@
                                 <div id="flight-card" class="card">
                                     <div class="card-header deep-orange accent-2">
                                         <div class="card-title">
-                                            <h4 class="flight-card-title">Viaje Creado</h4>
+                                            <h4 class="flight-card-title">Viaje Participado</h4>
                                             <a href="{{route('trip.show',$viaje->id)}}" class="btn waves-effect orange accent-3 right" type="submit" name="action">Ver
                                             </a>
                                             <p class="flight-card-date">{{$viaje->fecha}}</p>

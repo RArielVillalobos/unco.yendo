@@ -34,6 +34,8 @@ Route::get('publicar','TripController@publicar')->name('trip.publicar')->middlew
 //detalle del viaje para cada usuario suscrito
 Route::get('viaje-info/{trip}','TripController@info')->name('trip.info')->middleware('auth');
 Route::get('misviajes','TripController@misViajes')->name('trip.mis_viajes')->middleware('auth');
+
+Route::get('misviajesparticipado','TripController@misViajesParticipado')->name('trip.mis_viajes_participado')->middleware('auth');
 //Route::get('trip/{id}','TripController@show')->name('')
 
 //mensajes
